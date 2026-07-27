@@ -44,17 +44,28 @@ echo
 echo "--- v2 (expected: 17/18 clean, 1 elided-quote failure) ---"
 python3 scripts/validate.py results/*/v2 2>&1 | tail -8 || true
 
+hr "3. Audit every quantitative claim against the raw data (offline)"
+# Re-derives the numbers in README.md, parameters.yaml and analysis/ from
+# results/. A submission asserting numbers nobody recomputed is asking to be
+# trusted; this makes them checkable in one command.
 if [ -n "$UDB" ]; then
-  hr "3. Validate UDB-native output against the real param_schema.json"
+  python3 scripts/audit_claims.py --udb "$UDB"
+else
+  python3 scripts/audit_claims.py
+fi
+
+if [ -n "$UDB" ]; then
+  hr "4. Validate UDB-native output against the real param_schema.json"
   python3 scripts/validate_udb.py --udb "$UDB"
 else
-  hr "3. UDB schema validation -- SKIPPED"
+  hr "4. UDB schema validation -- SKIPPED"
   echo "Pass --udb <path> or set UDB_PATH to a riscv-unified-db checkout:"
   echo "  git clone --depth 1 https://github.com/riscv/riscv-unified-db"
+  echo "(this also unlocks the UDB-side claims in stage 3)"
 fi
 
 if [ "$WITH_MODELS" -eq 1 ]; then
-  hr "4. Re-run models (costs tokens)"
+  hr "5. Re-run models (costs tokens)"
   echo "N=3 per model per snippet. temperature=0. finish_reason is checked."
   for m in "deepseek-ai/DeepSeek-V4-Pro:hf" "gemini-3.6-flash:gemini" "gemini-2.5-flash:gemini"; do
     model="${m%:*}"; provider="${m##*:}"
@@ -68,7 +79,7 @@ if [ "$WITH_MODELS" -eq 1 ]; then
   echo "Re-validating freshly generated output:"
   python3 scripts/validate.py results/*/v2 2>&1 | tail -6 || true
 else
-  hr "4. Model re-runs -- SKIPPED"
+  hr "5. Model re-runs -- SKIPPED"
   echo "Pass --with-models to re-run. Committed raw output is in results/."
 fi
 

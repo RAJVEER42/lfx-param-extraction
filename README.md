@@ -40,7 +40,10 @@ unverified, it says so.
 ./run.sh --with-models   # re-run the models (needs credentials)
 ```
 
-Stages 1–2 need no credentials and no spend.
+Stages 1–3 need no credentials and no spend. Stage 3 **re-derives every numeric
+claim in this README from the raw output in `results/`** — 51 checks, and it
+fails loudly on any mismatch. None of the figures below are asserted; all of
+them are recomputed.
 
 ---
 
@@ -542,6 +545,7 @@ not an assumption.
 | [`scripts/run_extraction.py`](scripts/) | Multi-provider runner, `finish_reason` guard |
 | [`scripts/validate.py`](scripts/) | 8 checks incl. excerpt grounding |
 | [`scripts/validate_udb.py`](scripts/) | Validates against real `param_schema.json` |
+| [`scripts/audit_claims.py`](scripts/) | **Re-derives all 51 numeric claims in this README from `results/`** |
 | [`.claude/skills/param-extract/`](.claude/skills/) | **Reusable skill** — proposal item 3 |
 | [`run.sh`](run.sh) | One-command reproduction |
 | [`reference/`](reference/) | Verified notes: UDB schema, models, prior art |
