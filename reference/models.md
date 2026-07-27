@@ -112,3 +112,22 @@ secret committed once persists in git history even after deletion.
 
 Account: `Krishna3451112` · token scope `write` (inference needs only `read`) ·
 billing period ends 2026-08-01.
+
+## 6. Reproducing the model runs — operational notes
+
+The committed output in `results/` is the record. Re-running is optional, and
+`./run.sh` without `--with-models` verifies everything checkable offline.
+
+If you do re-run, expect these:
+
+| Symptom | Cause | Action |
+|---|---|---|
+| `429 RESOURCE_EXHAUSTED` on Gemini | Free-tier daily quota. 18 runs of two models plus smoke tests is enough to exhaust it | Wait for the daily reset (~midnight US Pacific), or use a paid key |
+| `403 PERMISSION_DENIED`, *"Your project has been denied access"* | The API key belongs to a Google Cloud project without access — typically a fresh project lacking the Generative Language API, not an account-level block | Create the key under a project already known to work; check the project selector in AI Studio |
+| `429` on `gemini-2.5-pro` specifically | Not on the free tier at all — quota is zero, not exhausted | Use a Flash model, or a paid key |
+| Empty `content` with `finish_reason: length` | Reasoning model exhausted its budget | Raise `--max-tokens`. The runner already records this as a failure, not an empty result |
+
+Both Gemini failure modes above were encountered during this work and are
+recorded here rather than omitted — the free tier is genuinely rate-limited, and
+a reviewer hitting a `429` should know it is expected rather than a defect in the
+harness.
