@@ -201,7 +201,7 @@ Honest accounting of what v2 made worse.
 
 | Cost | Detail |
 |---|---|
-| **Token cost** | DeepSeek 6,255 → **18,618** completion tokens (**3.0×**). Prompt tokens per run roughly 5×. At spec scale this is the dominant cost |
+| **Token cost** | DeepSeek 6,255 → **17,618** completion tokens (**2.8×**). Prompt tokens 2,217 → 9,087 (**4.1×**). At spec scale this is the dominant cost |
 | **Latency** | DeepSeek up to **118 s** on a single run, vs ~44 s max in v1 |
 | **Reason-code accuracy is imperfect** | `gemini-2.5-flash` labelled cache-block uniformity `FIXED_BY_ARCHITECTURE` in runs 1 and 3, but `CONSTRAINT_NOT_PARAMETER` in run 2. Ground truth says the latter. **1/3 correct, and unstable within one model** |
 | **Q3 missed** | Only 3/9 runs produced the `NOT_ISA_VISIBLE` rejection, against a predicted ≥5/9 |
