@@ -1,0 +1,27 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-27T19:05:28.876075+00:00",
+  "prompt_version": "v2",
+  "snippet": "priv_2_1",
+  "run_index": 1,
+  "model_requested": "gemini-3.6-flash",
+  "provider": "gemini",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 16000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "279bf401533c8215"
+  },
+  "name_list_supplied": false,
+  "content": "parameters: []\nrejected:\n  - candidate: CSR address space size\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"The standard RISC-V ISA sets aside a 12-bit encoding space (csr[11:0]) for up to 4,096 CSRs.\"\n    explanation: The 12-bit width of the CSR encoding space is fixed by the architecture.\n  - candidate: CSR address accessibility encoding\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level as shown in Table 1.\"\n    explanation: The encoding of read/write accessibility and privilege levels in csr[11:8] is fixed by the architecture convention and is not an implementation choice.\n  - candidate: Read-only CSR bit encoding\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"The top two bits (csr[11:10]) indicate whether the register is read/write (00,01, or 10) or read-only (11).\"\n    explanation: The top two bits and their assigned bit values for read/write versus read-only CSRs are fixed by the ISA.\n  - candidate: Privilege level CSR field mapping\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"The next two bits (csr[9:8]) encode the lowest privilege level that can access the CSR.\"\n    explanation: The bit positions for encoding the minimum access privilege level are fixed by the ISA.",
+  "reasoning_chars": 0,
+  "reasoning_tokens": 1883,
+  "finish_reason": "stop",
+  "prompt_tokens": 1587,
+  "completion_tokens": 351,
+  "model_echoed": "gemini-3.6-flash",
+  "elapsed_s": 9.87,
+  "status": "ok"
+}

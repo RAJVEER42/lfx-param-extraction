@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-27T19:00:21.465336+00:00",
+  "prompt_version": "v2",
+  "snippet": "priv_2_1",
+  "run_index": 3,
+  "model_requested": "deepseek-ai/DeepSeek-V4-Pro",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "279bf401533c8215"
+  },
+  "name_list_supplied": false,
+  "content": "parameters: []\nrejected:\n  - candidate: \"Whether the upper 4 bits of the CSR address encode accessibility according to the described convention\"\n    reason: NOT_STATED_IN_TEXT\n    excerpt: \"By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level\"\n    explanation: \"The passage describes a convention but does not state that implementations may choose a different encoding or that the convention is optional.\"\n  - candidate: \"The specific bit assignments for read/write and privilege level within the upper 4 bits\"\n    reason: NOT_STATED_IN_TEXT\n    excerpt: \"The top two bits (csr[11:10]) indicate whether the register is read/write (00,01, or 10) or read-only (11). The next two bits (csr[9:8]) encode the lowest privilege level that can access the CSR.\"\n    explanation: \"The passage defines these assignments as part of the convention, not as implementation-defined choices.\"\n  - candidate: \"Number of implemented CSRs\"\n    reason: NOT_STATED_IN_TEXT\n    excerpt: \"up to 4,096 CSRs\"\n    explanation: \"The passage only states the maximum possible CSRs, not that the actual number is an implementation parameter.\"",
+  "reasoning_chars": 8574,
+  "finish_reason": "stop",
+  "prompt_tokens": 1531,
+  "completion_tokens": 2178,
+  "model_echoed": "deepseek-ai/DeepSeek-V4-Pro",
+  "elapsed_s": 31.82,
+  "status": "ok"
+}

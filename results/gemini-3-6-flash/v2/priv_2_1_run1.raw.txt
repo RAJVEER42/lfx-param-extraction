@@ -1,0 +1,18 @@
+parameters: []
+rejected:
+  - candidate: CSR address space size
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "The standard RISC-V ISA sets aside a 12-bit encoding space (csr[11:0]) for up to 4,096 CSRs."
+    explanation: The 12-bit width of the CSR encoding space is fixed by the architecture.
+  - candidate: CSR address accessibility encoding
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level as shown in Table 1."
+    explanation: The encoding of read/write accessibility and privilege levels in csr[11:8] is fixed by the architecture convention and is not an implementation choice.
+  - candidate: Read-only CSR bit encoding
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "The top two bits (csr[11:10]) indicate whether the register is read/write (00,01, or 10) or read-only (11)."
+    explanation: The top two bits and their assigned bit values for read/write versus read-only CSRs are fixed by the ISA.
+  - candidate: Privilege level CSR field mapping
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "The next two bits (csr[9:8]) encode the lowest privilege level that can access the CSR."
+    explanation: The bit positions for encoding the minimum access privilege level are fixed by the ISA.

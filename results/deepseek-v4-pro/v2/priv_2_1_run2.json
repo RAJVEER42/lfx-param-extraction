@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-27T18:59:27.694370+00:00",
+  "prompt_version": "v2",
+  "snippet": "priv_2_1",
+  "run_index": 2,
+  "model_requested": "deepseek-ai/DeepSeek-V4-Pro",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "279bf401533c8215"
+  },
+  "name_list_supplied": false,
+  "content": "parameters: []\nrejected:\n  - candidate: Whether the implementation follows the conventional CSR address mapping for accessibility (upper 4 bits encoding read/write and privilege level)\n    reason: NOT_STATED_IN_TEXT\n    excerpt: \"By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level\"\n    explanation: The passage describes a convention but does not state that implementations may choose to deviate; it is not presented as an implementation-defined parameter.\n  - candidate: Number of implemented CSRs\n    reason: NOT_STATED_IN_TEXT\n    excerpt: \"up to 4,096 CSRs\"\n    explanation: The passage only states the maximum possible, not that the actual number is an implementation choice.",
+  "reasoning_chars": 14888,
+  "finish_reason": "stop",
+  "prompt_tokens": 1531,
+  "completion_tokens": 3311,
+  "model_echoed": "deepseek-ai/DeepSeek-V4-Pro",
+  "elapsed_s": 53.77,
+  "status": "ok"
+}

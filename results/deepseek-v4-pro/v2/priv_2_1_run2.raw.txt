@@ -1,0 +1,10 @@
+parameters: []
+rejected:
+  - candidate: Whether the implementation follows the conventional CSR address mapping for accessibility (upper 4 bits encoding read/write and privilege level)
+    reason: NOT_STATED_IN_TEXT
+    excerpt: "By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level"
+    explanation: The passage describes a convention but does not state that implementations may choose to deviate; it is not presented as an implementation-defined parameter.
+  - candidate: Number of implemented CSRs
+    reason: NOT_STATED_IN_TEXT
+    excerpt: "up to 4,096 CSRs"
+    explanation: The passage only states the maximum possible, not that the actual number is an implementation choice.

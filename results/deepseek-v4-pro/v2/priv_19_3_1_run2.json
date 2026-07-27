@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-27T18:55:33.589917+00:00",
+  "prompt_version": "v2",
+  "snippet": "priv_19_3_1",
+  "run_index": 2,
+  "model_requested": "deepseek-ai/DeepSeek-V4-Pro",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_CAPACITY\n    long_name: Cache capacity\n    description: Implementation-specific cache capacity, discoverable by software.\n    type: integer\n    constraints: {}\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover cache capacity via the execution environment.\n    confidence: high\n  - name: CACHE_ORGANIZATION\n    long_name: Cache organization\n    description: Implementation-specific cache organization, discoverable by software.\n    type: string\n    constraints: {}\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover cache organization via the execution environment.\n    confidence: high\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: Size of a cache block, uniform throughout the system, power-of-two.\n    type: integer\n    constraints:\n      power_of_two: true\n      note: \"Uniform throughout the system (required by CMO extensions).\"\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover cache block size via the execution environment.\n    confidence: high\nrejected:\n  - candidate: Cache block represents NAPOT range\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range\"\n    explanation: The architecture requires cache blocks to be NAPOT, not an implementation choice.",
+  "reasoning_chars": 13068,
+  "finish_reason": "stop",
+  "prompt_tokens": 1498,
+  "completion_tokens": 3179,
+  "model_echoed": "deepseek-ai/DeepSeek-V4-Pro",
+  "elapsed_s": 72.54,
+  "status": "ok"
+}

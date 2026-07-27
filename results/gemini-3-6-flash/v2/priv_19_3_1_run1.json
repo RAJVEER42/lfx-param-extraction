@@ -1,0 +1,27 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-27T19:04:47.012861+00:00",
+  "prompt_version": "v2",
+  "snippet": "priv_19_3_1",
+  "run_index": 1,
+  "model_requested": "gemini-3.6-flash",
+  "provider": "gemini",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 16000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: The size of a cache block representing a contiguous aligned memory range.\n    type: integer\n    constraints:\n      power_of_two: true\n      note: Size must be uniform throughout the system in the initial set of CMO extensions.\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific, and the execution environment provides software a means to discover information about the caches and cache blocks in a system.\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Cache management operations act on cache block boundaries, making the block size observable through memory modification patterns and discovery mechanisms provided by the execution environment.\n    confidence: high\n\nrejected:\n  - candidate: Cache capacity and organization\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific, and the execution environment provides software a means to discover information about the caches and cache blocks in a system.\"\n    explanation: Total cache capacity and structural organization (such as associativity) are microarchitectural parameters that affect timing and performance rather than ISA-defined software-visible instruction behavior.\n  - candidate: Uniform cache block size across system\n    reason: CONSTRAINT_NOT_PARAMETER\n    excerpt: \"In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.\"\n    explanation: The requirement that block sizes shall be uniform is an architectural constraint restricting implementation freedom, not a distinct parameter.",
+  "reasoning_chars": 0,
+  "reasoning_tokens": 2004,
+  "finish_reason": "stop",
+  "prompt_tokens": 1545,
+  "completion_tokens": 350,
+  "model_echoed": "gemini-3.6-flash",
+  "elapsed_s": 11.45,
+  "status": "ok"
+}

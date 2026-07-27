@@ -1,0 +1,27 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-27T19:04:59.183534+00:00",
+  "prompt_version": "v2",
+  "snippet": "priv_19_3_1",
+  "run_index": 2,
+  "model_requested": "gemini-3.6-flash",
+  "provider": "gemini",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 16000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: Size of a cache block, representing a contiguous, naturally aligned power-of-two range of memory locations.\n    type: integer\n    constraints:\n      power_of_two: true\n      note: The size of a cache block shall be uniform throughout the system.\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Cache block management instructions operate on memory aligned to and sized by the cache block size.\n    confidence: high\n\nrejected:\n  - candidate: Cache capacity and organization\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    explanation: Cache capacity and internal structure (e.g. associativity and set count) are microarchitectural implementation choices that do not affect defined instruction behavior or ISA-visible state.\n  - candidate: Cache block uniformity\n    reason: CONSTRAINT_NOT_PARAMETER\n    excerpt: \"In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.\"\n    explanation: The requirement for cache block size to be uniform across the system is a constraint on cache block size rather than an independent parameter.",
+  "reasoning_chars": 0,
+  "reasoning_tokens": 2876,
+  "finish_reason": "stop",
+  "prompt_tokens": 1545,
+  "completion_tokens": 308,
+  "model_echoed": "gemini-3.6-flash",
+  "elapsed_s": 15.1,
+  "status": "ok"
+}

@@ -1,0 +1,10 @@
+parameters: []
+rejected:
+  - candidate: Number of implemented CSRs
+    reason: NOT_STATED_IN_TEXT
+    excerpt: "up to 4,096 CSRs"
+    explanation: The passage states the maximum capacity but does not state that the actual number of CSRs is implementation-defined.
+  - candidate: CSR address mapping convention (whether upper 4 bits encode accessibility as described)
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level"
+    explanation: The passage describes a fixed convention that is part of the standard ISA, not an implementation choice.

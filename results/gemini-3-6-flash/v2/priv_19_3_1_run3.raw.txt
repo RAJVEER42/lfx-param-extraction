@@ -1,0 +1,23 @@
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: Size of a cache block, which determines the size and alignment of memory ranges operated on by cache block management instructions.
+    type: integer
+    constraints:
+      power_of_two: true
+      note: Must be uniform throughout the system in the initial set of CMO extensions.
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Cache block management operations act on aligned memory regions of this block size.
+    confidence: high
+
+rejected:
+  - candidate: Cache capacity and organization
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    explanation: Cache capacity and microarchitectural organization alter timing and performance but do not affect software-observable instruction behavior or ISA state.
+  - candidate: Uniformity of cache block size
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    explanation: The requirement for uniform cache block size across the system is a mandatory constraint on cache block size rather than an independent parameter.

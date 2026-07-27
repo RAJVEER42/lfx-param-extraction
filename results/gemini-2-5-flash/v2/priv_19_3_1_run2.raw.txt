@@ -1,0 +1,40 @@
+```yaml
+parameters:
+  - name: CACHE_CAPACITY
+    long_name: Cache capacity
+    description: The capacity of a cache.
+    type: integer
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover information about the caches through means provided by the execution environment.
+    confidence: high
+  - name: CACHE_ORGANIZATION
+    long_name: Cache organization
+    description: The organization of a cache.
+    type: string
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover information about the caches through means provided by the execution environment.
+    confidence: high
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: The size of a cache block.
+    type: integer
+    constraints:
+      power_of_two: true
+      note: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    excerpt: "The ... size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover information about the cache blocks through means provided by the execution environment.
+    confidence: high
+rejected:
+  - candidate: Uniformity of cache block size
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    explanation: This statement describes a constraint on the chosen cache block size, not an independent parameter that an implementation chooses.
+```

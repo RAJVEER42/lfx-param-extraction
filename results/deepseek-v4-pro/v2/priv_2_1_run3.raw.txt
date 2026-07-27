@@ -1,0 +1,14 @@
+parameters: []
+rejected:
+  - candidate: "Whether the upper 4 bits of the CSR address encode accessibility according to the described convention"
+    reason: NOT_STATED_IN_TEXT
+    excerpt: "By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level"
+    explanation: "The passage describes a convention but does not state that implementations may choose a different encoding or that the convention is optional."
+  - candidate: "The specific bit assignments for read/write and privilege level within the upper 4 bits"
+    reason: NOT_STATED_IN_TEXT
+    excerpt: "The top two bits (csr[11:10]) indicate whether the register is read/write (00,01, or 10) or read-only (11). The next two bits (csr[9:8]) encode the lowest privilege level that can access the CSR."
+    explanation: "The passage defines these assignments as part of the convention, not as implementation-defined choices."
+  - candidate: "Number of implemented CSRs"
+    reason: NOT_STATED_IN_TEXT
+    excerpt: "up to 4,096 CSRs"
+    explanation: "The passage only states the maximum possible CSRs, not that the actual number is an implementation parameter."

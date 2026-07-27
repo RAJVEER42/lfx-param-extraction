@@ -1,0 +1,20 @@
+```yaml
+parameters: []
+rejected:
+  - candidate: CSR address space width
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "The standard RISC-V ISA sets aside a 12-bit encoding space (csr[11:0]) for up to 4,096 CSRs."
+    explanation: The passage states the ISA "sets aside" a 12-bit encoding space, indicating a fixed architectural value, not an implementation choice.
+  - candidate: Use of csr[11:8] for accessibility encoding
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level as shown in Table 1."
+    explanation: Although "by convention" is used, the text describes a fixed aspect of the standard CSR address mapping, which all conforming implementations must adhere to for standard CSRs. It is not an implementation choice.
+  - candidate: Meaning of csr[11:10] for R/W status
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "The top two bits (csr[11:10]) indicate whether the register is read/write (00,01, or 10) or read-only (11)."
+    explanation: The passage defines a fixed architectural assignment of meaning to these bits, which is not an implementation choice.
+  - candidate: Meaning of csr[9:8] for privilege level
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "The next two bits (csr[9:8]) encode the lowest privilege level that can access the CSR."
+    explanation: The passage defines a fixed architectural assignment of meaning to these bits, which is not an implementation choice.
+```
