@@ -65,8 +65,15 @@ UNITS = ["byte", "bytes", "bit", "bits", "kib", "mib", "kb", "mb", "word", "word
 REQUIRED_PARAM_FIELDS = ["name", "description", "type", "excerpt"]
 
 
-def snippet_text(key: str) -> str:
-    p = REPO / "snippets" / f"{key}.txt"
+def snippet_text(key: str, snippets_dir: pathlib.Path | None = None) -> str:
+    """Load the source passage a run was shown.
+
+    `snippets_dir` is overridable so this validator works on any corpus, not
+    only the two snippets in this repo. Raises FileNotFoundError, which callers
+    report as a finding rather than a crash.
+    """
+    d = snippets_dir or (REPO / "snippets")
+    p = d / f"{key}.txt"
     lines = p.read_text(encoding="utf-8").splitlines()
     return "\n".join(ln for ln in lines if not ln.startswith(HEADER_PREFIXES)).strip()
 
@@ -110,7 +117,7 @@ def flatten(v, out=None):
     return out
 
 
-def check_run(record: dict) -> list[dict]:
+def check_run(record: dict, snippets_dir: pathlib.Path | None = None) -> list[dict]:
     """Return a list of findings for one run record."""
     findings: list[dict] = []
 
@@ -121,7 +128,19 @@ def check_run(record: dict) -> list[dict]:
         add("RUN", "skip", f"status={record.get('status')} -- not an empty extraction")
         return findings
 
-    source = snippet_text(record["snippet"])
+    # A record may carry its source inline (`source_text`) or name a file. Inline
+    # wins, so output from another corpus needs no directory layout to match.
+    if record.get("source_text"):
+        source = str(record["source_text"])
+    else:
+        try:
+            source = snippet_text(record["snippet"], snippets_dir)
+        except FileNotFoundError:
+            add("SOURCE", "error",
+                f"source passage for {record.get('snippet')!r} not found. "
+                f"Pass --snippets-dir, or add a `source_text` field to the record. "
+                f"Grounding cannot be checked without the source.")
+            return findings
     source_n = norm(source).lower()
 
     try:
@@ -212,10 +231,54 @@ def check_run(record: dict) -> list[dict]:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("dirs", nargs="+", help="result directories, e.g. results/*/v2")
+    ap = argparse.ArgumentParser(
+        description=__doc__,
+        epilog="Standalone use on any corpus:\n"
+               "  python3 validate.py --source chunk_042.txt --extraction out.yaml\n"
+               "This needs no record format and no directory layout -- only the passage\n"
+               "the model was shown and the YAML it produced.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    ap.add_argument("dirs", nargs="*", help="result directories, e.g. results/*/v2")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--snippets-dir", help="directory of source passages (default: ./snippets)")
+    ap.add_argument("--source", help="standalone mode: file holding the source passage")
+    ap.add_argument("--extraction", help="standalone mode: file holding the model's YAML output")
     args = ap.parse_args()
+
+    snippets_dir = pathlib.Path(args.snippets_dir) if args.snippets_dir else None
+
+    # --- standalone mode: one passage, one extraction, no record format --------
+    if args.source or args.extraction:
+        if not (args.source and args.extraction):
+            print("--source and --extraction must be given together")
+            return 2
+        rec = {
+            "status": "ok",
+            "snippet": pathlib.Path(args.source).stem,
+            "source_text": pathlib.Path(args.source).read_text(encoding="utf-8"),
+            "content": pathlib.Path(args.extraction).read_text(encoding="utf-8"),
+        }
+        findings = check_run(rec)
+        n_err = sum(1 for x in findings if x["severity"] == "error")
+        if args.json:
+            print(json.dumps({"findings": findings, "errors": n_err}, indent=2))
+        else:
+            print(f"source     : {args.source}")
+            print(f"extraction : {args.extraction}")
+            n_pass = sum(1 for x in findings if x["severity"] == "pass")
+            print(f"grounded excerpts: {n_pass} passed\n")
+            for x in findings:
+                if x["severity"] == "pass":
+                    continue
+                mark = {"error": "  ERROR", "warn": "  warn ", "skip": "  skip "}[x["severity"]]
+                item = f" [{x['item']}]" if x["item"] else ""
+                print(f"{mark} {x['code']}{item}: {x['message']}")
+            print(f"\n{'FAIL' if n_err else 'PASS'} -- {n_err} error(s)")
+        return 1 if n_err else 0
+
+    if not args.dirs:
+        ap.error("give result directories, or use --source with --extraction")
 
     files: list[pathlib.Path] = []
     for d in args.dirs:
@@ -225,7 +288,7 @@ def main() -> int:
     all_out, errors = [], 0
     for f in files:
         rec = json.loads(f.read_text(encoding="utf-8"))
-        findings = check_run(rec)
+        findings = check_run(rec, snippets_dir)
         n_err = sum(1 for x in findings if x["severity"] == "error")
         errors += n_err
         all_out.append({"file": str(f), "findings": findings, "errors": n_err})
