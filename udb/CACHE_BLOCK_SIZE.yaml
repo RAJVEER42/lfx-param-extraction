@@ -1,0 +1,108 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+# yaml-language-server: $schema=../../../schemas/param_schema.json
+
+# ---------------------------------------------------------------------------
+# UDB-native form of the parameter extracted from Privileged Spec 19.3.1.
+#
+# The challenge asks for name/description/type/constraints. In riscv-unified-db
+# those are not four top-level fields: `type` and `constraints` live inside
+# `schema:` as ordinary JSON Schema. Emitting this shape as well as the flat one
+# in ../parameters.yaml is deliberate -- mentorship proposal item 4 is
+# "explore integration of the tools developed for the ISA Manual based flow to
+# export the parameters in UDB yaml format".
+#
+# Validated against the real spec/schemas/param_schema.json at commit bd775a94
+# by scripts/validate_udb.py -- not merely shaped to look plausible.
+#
+# This parameter ALREADY EXISTS upstream. This file is therefore not a proposed
+# addition; it is what our pipeline emits for a passage whose parameter is
+# already modelled, which makes it a check on the pipeline rather than on UDB.
+# Two differences from the current upstream file are proposed below.
+# ---------------------------------------------------------------------------
+
+$schema: param_schema.json#
+kind: parameter
+name: CACHE_BLOCK_SIZE
+
+# DIFFERENCE 1 -- upstream currently reads `long_name: TODO`, as do 163 of 227
+# parameter files (71.8%). Supplying real prose at scale is the part of this
+# work an LLM is actually well suited to, and the part the repository is
+# missing. Flagged as a question for the SIG rather than assumed: `long_name`
+# usage is inconsistent upstream, so it may be under deprecation.
+long_name: Cache block size
+
+description: |
+  The size of a cache block, which is the unit that the cache-management
+  operations act upon.
+
+  A cache block represents a contiguous, naturally aligned power-of-two (NAPOT)
+  range of memory locations, so this value is always a power of two.
+
+  In the initial set of CMO extensions the block size is uniform throughout the
+  system. Note that the specification scopes that requirement to the initial
+  set of extensions rather than stating it unconditionally.
+
+  The specification states that the capacity and organization of a cache and
+  the size of a cache block are all implementation-specific. Of those three,
+  only the block size is an architectural parameter: cache capacity and
+  organization are not observable through the ISA.
+
+# DIFFERENCE 2 -- upstream is `{type: integer, minimum: 1, maximum: 2^64-1}`,
+# which admits 3, 5, 7 and 100. The specification forbids those: a cache block
+# is a naturally aligned power-of-two range.
+#
+# schema_defs.json already defines 64bit_unsigned_pow2 for exactly this, and
+# $ref-ing into schema_defs.json from a parameter file is precedented
+# (CONFIG_PTR_ADDRESS, IMP_ID_VALUE and ARCH_ID_VALUE all use .../uint64).
+#
+# BLOCKED: that def cannot be adopted as-is. Its enum contains 4095 where 4096
+# belongs -- 4095 is the only non-power-of-two in the list, and 4096 (2^12) is
+# absent -- while tools/ruby-gems/udb/lib/udb/z3.rb implements the same rule
+# with the x & (x-1) bit trick and disagrees on exactly those two values. So
+# adopting the def would make the most likely legal cache block size in the
+# architecture fail validation.
+#
+# The enum below is therefore spelled out inline, following the precedent of
+# MISALIGNED_MAX_ATOMICITY_GRANULE_SIZE.yaml. See
+# ../reference/udb-schema-notes.md section 4.
+#
+# Preferred form, once schema_defs.json:866,876 is corrected:
+#     schema:
+#       $ref: schema_defs.json#/$defs/64bit_unsigned_pow2
+#
+# No upper bound is asserted. The passage states none, and inventing one would
+# be exactly the constraint-invention failure this work set out to avoid.
+schema:
+  type: integer
+  enum:
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
+    - 32
+    - 64
+    - 128
+    - 256
+    - 512
+    - 1024
+    - 2048
+    - 4096
+    - 8192
+    - 16384
+    - 32768
+    - 65536
+
+# Matches the current upstream definition. Note that the source passage says
+# "the initial set of CMO extensions" and never names Zicbom, Zicbop or Zicboz;
+# these names come from UDB, not from the text. Our extraction correctly
+# reported defined_by as null for this reason in 8 of 9 runs, and no model
+# invented the names -- see analysis/v2_delta.md section 5.3.
+definedBy:
+  extension:
+    anyOf:
+      - name: Zicbom
+      - name: Zicbop
+      - name: Zicboz

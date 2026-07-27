@@ -1,26 +1,274 @@
 # Extracted architectural parameters
-# LFX Fall 2026 coding challenge — placeholder, not yet populated.
+# LFX Mentorship Fall 2026 coding challenge
+# AI-assisted extraction of architectural parameters from RISC-V specifications
 #
-# Target shape follows riscv-unified-db's param_schema.json conventions
-# (spec/std/isa/param/*.yaml) rather than an ad-hoc format, since the
-# mentorship proposal's item 4 is exporting parameters in UDB YAML form.
+# Author: Rajveer Bishnoi (@RAJVEER42)
 #
-# Per-parameter fields required by the challenge: name, description, type,
-# constraints. The `source` block below is an addition — provenance back to
-# the exact spec sentence is what makes a result auditable rather than
-# assertable, and mirrors what Part I (#1831) captured as `excerpt` +
-# `line_number`.
+# ---------------------------------------------------------------------------
+# WHAT THIS FILE IS
+#
+# The challenge asks for results "formatted as a YAML file with fields for
+# name, description, type and constraints etc."  This file provides those four
+# fields, plus three additions that the exercise showed to be necessary:
+#
+#   source.excerpt   verbatim provenance. Every claim is traceable to an exact
+#                    span of the input, and is MECHANICALLY CHECKED as a
+#                    substring by scripts/validate.py. This is not decoration:
+#                    the check caught a model eliding eleven words behind an
+#                    ellipsis and presenting the result as a verbatim quote
+#                    (analysis/v2_delta.md section 3).
+#
+#   isa_visible      the concrete software-observable consequence. Being
+#                    "implementation-specific" is necessary but NOT sufficient
+#                    for a value to be an architectural parameter; it must also
+#                    be ISA-visible. This field is where that test is shown
+#                    rather than asserted.
+#
+#   rejected         candidates considered and declined, with reasons. For
+#                    these two snippets there are 11 rejections and 1
+#                    parameter, so the rejections carry most of the
+#                    information. A pipeline that cannot say what it declined
+#                    cannot be reviewed.
+#
+# Field names use the challenge's vocabulary. For the UDB-native shape of the
+# same parameter, see udb/CACHE_BLOCK_SIZE.yaml.
+# ---------------------------------------------------------------------------
 
-parameters: []
-# - name: EXAMPLE_PARAM
-#   description: |
-#     What the parameter controls, in the spec's own terms.
-#   type: integer            # integer | boolean | enum | string | array
-#   constraints:
-#     minimum: 0
-#     maximum: 4096
-#   source:
-#     file: snippets/priv_19_3_1.txt
-#     excerpt: "verbatim sentence that defines this parameter"
-#     trigger: implementation-specific   # may|should|optional|implementation-defined|...
-#   confidence: high         # high | medium | low
+metadata:
+  challenge: AI-assisted extraction of architectural parameters from RISC-V specifications
+  snippets_analysed: 2
+  parameters_extracted: 1
+  candidates_rejected: 11
+  ground_truth: ground_truth.md            # committed BEFORE any model was run
+  models_used: reference/models.md
+  prompts: prompts/v1/, prompts/v2/
+  raw_model_output: results/               # unedited
+  validator: scripts/validate.py
+
+# ===========================================================================
+# PARAMETERS
+# ===========================================================================
+
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: >-
+      The size of a cache block. A cache block is the unit that the RISC-V
+      cache-management operations act upon, so software performing those
+      operations must know this value. The specification states the size is
+      implementation-specific.
+    type: integer
+
+    constraints:
+      # Every constraint below is stated in the source text. No numeric bound
+      # is asserted, because the passage states none -- see the note on
+      # `minimum` under udb_status.
+      power_of_two: true
+      uniform_across_system: true
+      uniform_scope: >-
+        Applies to "the initial set of CMO extensions". The specification
+        explicitly scopes this requirement rather than stating it
+        unconditionally, so it must not be encoded as a permanent invariant.
+
+    source:
+      file: snippets/priv_19_3_1.txt
+      spec_section: Privileged ISA Specification 19.3.1
+      trigger: implementation-specific
+      excerpt: >-
+        The capacity and organization of a cache and the size of a cache block
+        are both implementation-specific
+      supporting_excerpt_power_of_two: >-
+        each of which represents a contiguous, naturally aligned power-of-two
+        (or NAPOT) range of memory locations
+      supporting_excerpt_uniformity: >-
+        In the initial set of CMO extensions, the size of a cache block shall
+        be uniform throughout the system.
+
+    isa_visible: >-
+      The cache-management operation instructions operate on a cache block.
+      Software issuing them must know the block size to know how much memory a
+      single operation affects, so two implementations with different block
+      sizes are distinguishable by software through the ISA.
+
+    confidence: high
+
+    udb_status: >-
+      Already exists in riscv-unified-db as spec/std/isa/param/CACHE_BLOCK_SIZE.yaml
+      (verified at commit bd775a94). Our extraction agrees with the
+      maintainers' judgement. Two differences are proposed rather than
+      asserted: the existing file has the placeholder `long_name: TODO`, and
+      its schema is `minimum: 1, maximum: 2^64-1`, which admits values the
+      specification forbids because the power-of-two requirement is not
+      encoded. See reference/udb-schema-notes.md section 4 -- the idiomatic fix
+      is blocked by a separate defect in schema_defs.json.
+
+# ===========================================================================
+# REJECTED CANDIDATES
+#
+# Reason codes:
+#   NOT_ISA_VISIBLE          implementation may choose, but no ISA-visible
+#                            behaviour depends on it -- microarchitectural
+#   FIXED_BY_ARCHITECTURE    the architecture assigns the value; two conforming
+#                            implementations cannot differ
+#   CONSTRAINT_NOT_PARAMETER a restriction ON a parameter, not a parameter
+#   NOT_STATED_IN_TEXT       may be genuinely implementation-dependent, but
+#                            this passage does not say so; extracting it means
+#                            importing knowledge from outside the input
+# ===========================================================================
+
+rejected:
+
+  # --- Privileged Spec 19.3.1 -------------------------------------------
+
+  - candidate: Capacity of a cache
+    snippet: snippets/priv_19_3_1.txt
+    reason: NOT_ISA_VISIBLE
+    excerpt: >-
+      The capacity and organization of a cache and the size of a cache block
+      are both implementation-specific
+    explanation: >-
+      Explicitly implementation-specific, so it passes the trigger test, but no
+      instruction's defined behaviour depends on it and no ISA mechanism
+      exposes it. Corroborated externally: among the 227 parameter files in
+      riscv-unified-db there is no cache-capacity parameter, so the
+      maintainers reached the same conclusion.
+    note: >-
+      This was the dominant failure mode in testing. Every one of 9 v1 runs
+      across 3 models emitted this as a parameter, and 6 of 9 v2 runs still
+      did. Two models argued that software can discover it through the
+      execution environment -- which is true, and not ISA-visibility, because
+      the execution environment lies outside the ISA.
+
+  - candidate: Organization of a cache
+    snippet: snippets/priv_19_3_1.txt
+    reason: NOT_ISA_VISIBLE
+    excerpt: >-
+      The capacity and organization of a cache and the size of a cache block
+      are both implementation-specific
+    explanation: >-
+      Same reasoning as cache capacity. Associativity, set count and
+      replacement policy are microarchitectural. No parameter file exists for
+      them in UDB either.
+    note: >-
+      The source sentence says these properties are "both"
+      implementation-specific -- two groups, not three items. The text itself
+      separates cache-internal properties from block size, so this split
+      follows the specification's own structure.
+
+  - candidate: Uniformity of cache block size across the system
+    snippet: snippets/priv_19_3_1.txt
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: >-
+      In the initial set of CMO extensions, the size of a cache block shall be
+      uniform throughout the system.
+    explanation: >-
+      "shall" is a mandate. It removes implementation freedom rather than
+      granting it, so this is a constraint on CACHE_BLOCK_SIZE, recorded there.
+      Note that "shall" is NOT among the challenge's signal words, which list
+      "should" -- a near-opposite in specification language.
+    open_question: >-
+      This is a system-scoped invariant, while UDB parameters are largely
+      per-hart. There may be no clean place to express "and every other hart
+      agrees". Raised as a question for the Parameter SIG rather than resolved
+      by inventing a schema field.
+
+  - candidate: Means by which software discovers cache information
+    snippet: snippets/priv_19_3_1.txt
+    reason: NOT_ISA_VISIBLE
+    excerpt: >-
+      the execution environment provides software a means to discover
+      information about the caches and cache blocks in a system
+    explanation: >-
+      The mechanism is left unspecified and belongs to the execution
+      environment, not the ISA. This sentence is the direct cause of the
+      strongest false-positive argument observed in testing.
+
+  - candidate: NAPOT / power-of-two range requirement
+    snippet: snippets/priv_19_3_1.txt
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: >-
+      each of which represents a contiguous, naturally aligned power-of-two
+      (or NAPOT) range of memory locations
+    explanation: >-
+      An architectural requirement on every cache block, not an implementation
+      choice. Retained as the power_of_two constraint on CACHE_BLOCK_SIZE.
+
+  - candidate: Method of identifying a cache block by physical address
+    snippet: snippets/priv_19_3_1.txt
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: >-
+      A cache block is identified by any of the physical addresses
+      corresponding to the underlying memory locations.
+    explanation: >-
+      A statement of architectural fact with no implementation freedom.
+
+  # --- Privileged Spec 2.1 ----------------------------------------------
+  #
+  # Expected yield: ZERO parameters. This snippet contains NONE of the
+  # challenge's signal words -- no "may", "might", "should", "optional" or
+  # "implementation defined/specific" (verified mechanically by
+  # scripts/scan_triggers.py). Its only modal language is "can", "By
+  # convention" and a scare-quoted "Conventional".
+  #
+  # All three models returned an empty parameter list here, in 9/9 runs, for
+  # both prompt versions. The entries below are our adjudication of candidates
+  # a trigger-word scan would surface -- documentation of why zero is correct,
+  # NOT errors that were caught.
+
+  - candidate: Number of CSRs / size of the CSR address space
+    snippet: snippets/priv_2_1.txt
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: >-
+      The standard RISC-V ISA sets aside a 12-bit encoding space (csr[11:0])
+      for up to 4,096 CSRs.
+    explanation: >-
+      "up to 4,096" reads like a bound, but it states the fixed size of the
+      encoding space. Two conforming implementations cannot differ in it.
+
+  - candidate: CSR read/write accessibility encoding, csr[11:10]
+    snippet: snippets/priv_2_1.txt
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: >-
+      The top two bits (csr[11:10]) indicate whether the register is
+      read/write (00,01, or 10) or read-only (11).
+    explanation: >-
+      A fixed architectural encoding, identical across implementations. "By
+      convention" hedges the mapping's completeness, not an implementation's
+      freedom to change it.
+
+  - candidate: Lowest privilege level able to access a CSR, csr[9:8]
+    snippet: snippets/priv_2_1.txt
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: >-
+      The next two bits (csr[9:8]) encode the lowest privilege level that can
+      access the CSR.
+    explanation: >-
+      Determined by the CSR's address, which is architecturally assigned. The
+      modal "can" describes an architectural permission, not a choice.
+
+  - candidate: CSR address width (12 bits)
+    snippet: snippets/priv_2_1.txt
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: >-
+      The standard RISC-V ISA sets aside a 12-bit encoding space (csr[11:0])
+    explanation: >-
+      A width looks parameterisable, but this one is architecturally fixed at 12.
+
+  - candidate: Which CSRs an implementation implements
+    snippet: snippets/priv_2_1.txt
+    reason: NOT_STATED_IN_TEXT
+    excerpt: null
+    explanation: >-
+      This is the most instructive rejection of the set. Which CSRs exist IS
+      genuinely implementation- and extension-dependent, and real parameters
+      of that flavour exist in UDB. But this passage never says it -- it
+      describes how CSR addresses ENCODE accessibility, not which CSRs are
+      present. Emitting it means answering from knowledge of RISC-V rather
+      than from the input, which is the precise failure this exercise tests
+      for. `excerpt` is null because no supporting span exists, and under our
+      rules an absent excerpt forbids extraction.
+    note: >-
+      Recorded in ground_truth.md before any model ran. DeepSeek-V4-Pro
+      independently surfaced this candidate and rejected it as
+      NOT_STATED_IN_TEXT in 3 of 3 v2 runs -- agreement that neither side
+      could have influenced.
