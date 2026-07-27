@@ -1,0 +1,15 @@
+```yaml
+parameters:
+  - name: CACHE_CAPACITY
+    description: The capacity of a cache.
+    type: integer
+    constraints: "Implementation-specific."
+  - name: CACHE_ORGANIZATION
+    description: The organization of a cache.
+    type: string
+    constraints: "Implementation-specific."
+  - name: CACHE_BLOCK_SIZE
+    description: The size of a cache block.
+    type: integer
+    constraints: "Implementation-specific. Must represent a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations. Shall be uniform throughout the system."
+```

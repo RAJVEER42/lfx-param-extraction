@@ -1,0 +1,11 @@
+```yaml
+parameters:
+- name: CACHE_BLOCK_SIZE
+  description: The uniform size of a cache block in bytes. All caches in the system use the same block size.
+  type: integer
+  constraints: Must be a power of two (NAPOT). Uniform across all caches.
+- name: CACHE_CONFIGURATIONS
+  description: An array of cache configurations present in the system. Each configuration describes a cache's capacity and organization.
+  type: array
+  constraints: Each element is an object with 'capacity' (integer, bytes) and 'organization' (string, describing the cache organization, e.g., set-associative, direct-mapped). The array may be empty if no caches are present.
+```

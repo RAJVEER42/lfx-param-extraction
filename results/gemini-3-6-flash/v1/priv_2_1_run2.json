@@ -1,0 +1,27 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-27T18:45:20.723293+00:00",
+  "prompt_version": "v1",
+  "snippet": "priv_2_1",
+  "run_index": 2,
+  "model_requested": "gemini-3.6-flash",
+  "provider": "gemini",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 16000
+  },
+  "prompt_sha256_16": {
+    "system": "0246afa93feb76fc",
+    "user": "d245973d3b06ef82"
+  },
+  "name_list_supplied": false,
+  "content": "```yaml\nparameters: []\n```",
+  "reasoning_chars": 0,
+  "reasoning_tokens": 847,
+  "finish_reason": "stop",
+  "prompt_tokens": 406,
+  "completion_tokens": 8,
+  "model_echoed": "gemini-3.6-flash",
+  "elapsed_s": 4.92,
+  "status": "ok"
+}

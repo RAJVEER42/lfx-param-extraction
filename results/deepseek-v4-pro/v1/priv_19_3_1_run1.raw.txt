@@ -1,0 +1,19 @@
+```yaml
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    description: The size of a cache block in bytes. Must be a power of two and uniform throughout the system.
+    type: integer
+    constraints:
+      - Must be a power of two.
+      - Shall be uniform across all caches in the system.
+  - name: CACHE_CAPACITIES
+    description: An array of capacities (in bytes) for each cache in the system. Implementation-specific.
+    type: array
+    constraints:
+      - Each element must be a positive integer.
+  - name: CACHE_ORGANIZATIONS
+    description: An array of organization descriptions (e.g., set-associativity, number of sets) for each cache in the system. Implementation-specific.
+    type: array
+    constraints:
+      - Each element must be a string describing the cache organization.
+```

@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-27T18:37:58.951264+00:00",
+  "prompt_version": "v1",
+  "snippet": "priv_19_3_1",
+  "run_index": 1,
+  "model_requested": "deepseek-ai/DeepSeek-V4-Pro",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "0246afa93feb76fc",
+    "user": "7ca2ccc2cf3fbcc5"
+  },
+  "name_list_supplied": false,
+  "content": "```yaml\nparameters:\n  - name: CACHE_BLOCK_SIZE\n    description: The size of a cache block in bytes. Must be a power of two and uniform throughout the system.\n    type: integer\n    constraints:\n      - Must be a power of two.\n      - Shall be uniform across all caches in the system.\n  - name: CACHE_CAPACITIES\n    description: An array of capacities (in bytes) for each cache in the system. Implementation-specific.\n    type: array\n    constraints:\n      - Each element must be a positive integer.\n  - name: CACHE_ORGANIZATIONS\n    description: An array of organization descriptions (e.g., set-associativity, number of sets) for each cache in the system. Implementation-specific.\n    type: array\n    constraints:\n      - Each element must be a string describing the cache organization.\n```",
+  "reasoning_chars": 7961,
+  "finish_reason": "stop",
+  "prompt_tokens": 353,
+  "completion_tokens": 1920,
+  "model_echoed": "deepseek-ai/DeepSeek-V4-Pro",
+  "elapsed_s": 43.67,
+  "status": "ok"
+}

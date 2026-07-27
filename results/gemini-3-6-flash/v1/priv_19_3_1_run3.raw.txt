@@ -1,0 +1,15 @@
+```yaml
+parameters:
+  - name: CACHE_CAPACITY
+    description: The storage capacity of a cache.
+    type: integer
+    constraints: Implementation-specific.
+  - name: CACHE_ORGANIZATION
+    description: The structural organization of a cache (e.g., set associativity, number of sets).
+    type: string
+    constraints: Implementation-specific.
+  - name: CACHE_BLOCK_SIZE
+    description: The size of a cache block in bytes.
+    type: integer
+    constraints: Must be a power of two (naturally aligned power-of-two / NAPOT); must be uniform throughout the system for the initial set of CMO extensions.
+```

@@ -1,0 +1,13 @@
+parameters:
+  - name: CACHE_CAPACITY
+    description: The capacity of a cache, implementation-specific.
+    type: integer
+    constraints: "Positive integer (size in bytes)."
+  - name: CACHE_ORGANIZATION
+    description: The organization of a cache (e.g., set-associativity, number of ways), implementation-specific.
+    type: string
+    constraints: "Implementation-defined."
+  - name: CACHE_BLOCK_SIZE
+    description: The size of a cache block, implementation-specific.
+    type: integer
+    constraints: "Must be a power-of-two (or NAPOT). Must be uniform throughout the system for the initial set of CMO extensions."

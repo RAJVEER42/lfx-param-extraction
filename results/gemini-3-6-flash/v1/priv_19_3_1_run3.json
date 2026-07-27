@@ -1,0 +1,27 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-27T18:43:12.876260+00:00",
+  "prompt_version": "v1",
+  "snippet": "priv_19_3_1",
+  "run_index": 3,
+  "model_requested": "gemini-3.6-flash",
+  "provider": "gemini",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 16000
+  },
+  "prompt_sha256_16": {
+    "system": "0246afa93feb76fc",
+    "user": "7ca2ccc2cf3fbcc5"
+  },
+  "name_list_supplied": false,
+  "content": "```yaml\nparameters:\n  - name: CACHE_CAPACITY\n    description: The storage capacity of a cache.\n    type: integer\n    constraints: Implementation-specific.\n  - name: CACHE_ORGANIZATION\n    description: The structural organization of a cache (e.g., set associativity, number of sets).\n    type: string\n    constraints: Implementation-specific.\n  - name: CACHE_BLOCK_SIZE\n    description: The size of a cache block in bytes.\n    type: integer\n    constraints: Must be a power of two (naturally aligned power-of-two / NAPOT); must be uniform throughout the system for the initial set of CMO extensions.\n```",
+  "reasoning_chars": 0,
+  "reasoning_tokens": 982,
+  "finish_reason": "stop",
+  "prompt_tokens": 364,
+  "completion_tokens": 152,
+  "model_echoed": "gemini-3.6-flash",
+  "elapsed_s": 6.08,
+  "status": "ok"
+}
