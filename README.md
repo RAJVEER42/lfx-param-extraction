@@ -63,13 +63,36 @@ That re-derives **all 51 numbers in this file** from the raw output in `results/
 and fails if any disagree. It also re-runs the validator over committed output and
 confirms every quotation in `parameters.yaml` is a real substring of its source.
 
-Two orderings in git are the load-bearing evidence, both checkable from commit
-timestamps:
+### What was done, and in what order
 
-| Commit | File | Why |
-|---|---|---|
-| `9d3a0cb` | `ground_truth.md` | Committed **before** anything in `results/` existed, so the models were measured, not believed |
-| `2c1badf` | `scripts/validate.py` | Committed **before** any v2 output existed, so the checks were not tuned to flatter the results |
+The order is the evidence. Two commits had to land before the work they judge, and
+both are checkable from git timestamps.
+
+```mermaid
+flowchart TD
+    S["2 snippets<br/>185 words"] --> T["scan_triggers.py<br/>1 trigger phrase, 2.1 has none"]
+    T --> G["<b>ground_truth.md</b> · 9d3a0cb<br/>1 parameter, 11 rejections<br/>7 predictions"]
+    G ==>|"gate 1"| R1
+    G --> P1["v1 prompt · 135 words<br/>the brief, followed"]
+    P1 --> R1["v1 runs<br/>3 models x N=3"]
+    R1 --> A1["9 of 9 over-extract<br/>3 of 7 predictions refuted"]
+    A1 --> V["<b>validate.py</b> · 2c1badf<br/>8 checks, E1 = substring"]
+    A1 --> P2["v2 prompt · 862 words<br/>11 changes, no leaked answers"]
+    V ==>|"gate 2"| R2
+    P2 --> R2["v2 runs<br/>3 models x N=3"]
+    R2 --> A2["17 of 18 pass<br/>1 fabricated quote caught"]
+    A2 --> D["parameters.yaml<br/>udb/CACHE_BLOCK_SIZE.yaml"]
+
+    style G fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#000
+    style V fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#000
+    style A2 fill:#fef9c3,stroke:#ca8a04,color:#000
+```
+
+**Gate 1:** `ground_truth.md` was committed before anything in `results/` existed,
+so the models were measured rather than believed.
+
+**Gate 2:** `validate.py` was committed before any v2 output existed, so the checks
+could not be tuned to flatter the results.
 
 ---
 
