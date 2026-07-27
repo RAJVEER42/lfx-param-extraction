@@ -1,0 +1,26 @@
+# Extracted architectural parameters
+# LFX Fall 2026 coding challenge — placeholder, not yet populated.
+#
+# Target shape follows riscv-unified-db's param_schema.json conventions
+# (spec/std/isa/param/*.yaml) rather than an ad-hoc format, since the
+# mentorship proposal's item 4 is exporting parameters in UDB YAML form.
+#
+# Per-parameter fields required by the challenge: name, description, type,
+# constraints. The `source` block below is an addition — provenance back to
+# the exact spec sentence is what makes a result auditable rather than
+# assertable, and mirrors what Part I (#1831) captured as `excerpt` +
+# `line_number`.
+
+parameters: []
+# - name: EXAMPLE_PARAM
+#   description: |
+#     What the parameter controls, in the spec's own terms.
+#   type: integer            # integer | boolean | enum | string | array
+#   constraints:
+#     minimum: 0
+#     maximum: 4096
+#   source:
+#     file: snippets/priv_19_3_1.txt
+#     excerpt: "verbatim sentence that defines this parameter"
+#     trigger: implementation-specific   # may|should|optional|implementation-defined|...
+#   confidence: high         # high | medium | low
