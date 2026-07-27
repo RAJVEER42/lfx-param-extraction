@@ -68,18 +68,22 @@ confirms every quotation in `parameters.yaml` is a real substring of its source.
 The order is the evidence. Two commits had to land before the work they judge, and
 both are checkable from git timestamps.
 
+Solid arrows are data flow. Dotted arrows are **commit order only**: the green boxes
+never fed into the runs, they simply existed first, which is the whole point.
+
 ```mermaid
 flowchart TD
-    S["2 snippets<br/>185 words"] --> T["scan_triggers.py<br/>1 trigger phrase, 2.1 has none"]
+    S["2 snippets · 185 words"] --> T["scan_triggers.py<br/>1 trigger phrase<br/>snippet 2.1 has none"]
     T --> G["<b>ground_truth.md</b> · 9d3a0cb<br/>1 parameter, 11 rejections<br/>7 predictions"]
-    G ==>|"gate 1"| R1
-    G --> P1["v1 prompt · 135 words<br/>the brief, followed"]
-    P1 --> R1["v1 runs<br/>3 models x N=3"]
+    P1["v1 prompt · 135 words<br/>the brief, followed"] --> R1["v1 runs<br/>3 models x N=3"]
+    S --> R1
+    G -. "existed first" .-> R1
     R1 --> A1["9 of 9 over-extract<br/>3 of 7 predictions refuted"]
+    A1 --> P2["v2 prompt · 862 words<br/>11 changes<br/>no leaked answers"]
     A1 --> V["<b>validate.py</b> · 2c1badf<br/>8 checks, E1 = substring"]
-    A1 --> P2["v2 prompt · 862 words<br/>11 changes, no leaked answers"]
-    V ==>|"gate 2"| R2
     P2 --> R2["v2 runs<br/>3 models x N=3"]
+    S --> R2
+    V -. "existed first" .-> R2
     R2 --> A2["17 of 18 pass<br/>1 fabricated quote caught"]
     A2 --> D["parameters.yaml<br/>udb/CACHE_BLOCK_SIZE.yaml"]
 
@@ -88,11 +92,12 @@ flowchart TD
     style A2 fill:#fef9c3,stroke:#ca8a04,color:#000
 ```
 
-**Gate 1:** `ground_truth.md` was committed before anything in `results/` existed,
-so the models were measured rather than believed.
+**Gate 1.** `ground_truth.md` was committed before anything in `results/` existed. So
+the adjudication and the 7 predictions could not have been shaped by model output.
+The models were measured, not believed.
 
-**Gate 2:** `validate.py` was committed before any v2 output existed, so the checks
-could not be tuned to flatter the results.
+**Gate 2.** `validate.py` was committed before any v2 output existed. So its checks
+could not have been tuned to flatter the results they went on to judge.
 
 ---
 
