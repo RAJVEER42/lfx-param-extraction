@@ -69,20 +69,19 @@ The order is the evidence. Two commits had to land before the work they judge, a
 both are checkable from git timestamps.
 
 Solid arrows are data flow. Dotted arrows are **commit order only**: the green boxes
-never fed into the runs, they simply existed first, which is the whole point.
+never fed into the runs, they simply existed first, which is the whole point. Both
+prompts take the snippets as input; that edge is left out to keep the shape legible.
 
 ```mermaid
 flowchart TD
     S["2 snippets · 185 words"] --> T["scan_triggers.py<br/>1 trigger phrase<br/>snippet 2.1 has none"]
     T --> G["<b>ground_truth.md</b> · 9d3a0cb<br/>1 parameter, 11 rejections<br/>7 predictions"]
     P1["v1 prompt · 135 words<br/>the brief, followed"] --> R1["v1 runs<br/>3 models x N=3"]
-    S --> R1
     G -. "existed first" .-> R1
     R1 --> A1["9 of 9 over-extract<br/>3 of 7 predictions refuted"]
     A1 --> P2["v2 prompt · 862 words<br/>11 changes<br/>no leaked answers"]
     A1 --> V["<b>validate.py</b> · 2c1badf<br/>8 checks, E1 = substring"]
     P2 --> R2["v2 runs<br/>3 models x N=3"]
-    S --> R2
     V -. "existed first" .-> R2
     R2 --> A2["17 of 18 pass<br/>1 fabricated quote caught"]
     A2 --> D["parameters.yaml<br/>udb/CACHE_BLOCK_SIZE.yaml"]
