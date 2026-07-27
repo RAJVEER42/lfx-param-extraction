@@ -46,7 +46,7 @@ the same version, converts a measurement into a fitted one. See
 | **v2 system prompt** | `prompts/v2/system.md` | none — plain markdown, 862 words |
 | **v2 user template** | `prompts/v2/user_template.md` | `{source}` and `{snippet}` placeholders |
 | **The gate** | `prompts/v2/system.md`, sections *"What counts as an architectural parameter"* and *"Signal words"* | none |
-| **Substring validator** | `scripts/validate.py` | `pyyaml` only |
+| **Substring validator** | `scripts/validate.py` | **none for the grounding check**; `pyyaml` for the other seven |
 | **Design rationale** | `prompts/v2/README.md` | — |
 
 ## 2. The validator, standalone
@@ -101,6 +101,17 @@ the portability was offered before it was true.
 that re-wraps a long quoted line has still copied it; one that paraphrases or
 elides has not, and still fails. Provenance is the target, not whitespace
 fidelity.
+
+**E1 runs with no third-party packages.** If PyYAML is absent it reads the
+`excerpt:` scalars off the raw text and checks those, reporting `MODE: skip` to say
+E2 to E8 were not run. Verified: with and without PyYAML the validator returns the
+same verdict on the elided-quote case. The fallback does not understand block
+scalars (`|`, `>`), so an excerpt written as a block is skipped rather than
+mis-read; it under-reports and never invents a pass.
+
+⚠️ Correcting myself: I said on the thread that this file was "standard library
+only, no dependencies". That was wrong when written. It is now true for the
+grounding check and stated precisely above rather than glossed.
 
 E1 caught `gemini-2.5-flash` writing `"The ... size of a cache block are both
 implementation-specific"` — eleven words elided behind an ellipsis, presented as

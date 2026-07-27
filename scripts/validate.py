@@ -64,6 +64,38 @@ UNITS = ["byte", "bytes", "bit", "bits", "kib", "mib", "kb", "mb", "word", "word
 
 REQUIRED_PARAM_FIELDS = ["name", "description", "type", "excerpt"]
 
+# --- dependency-free fallback ----------------------------------------------
+# PyYAML gives the full eight checks. Without it, the grounding check (E1) still
+# runs, because E1 only needs the `excerpt:` values and those can be read off the
+# raw text. E1 is the load-bearing check, so a machine with no third-party
+# packages can still verify provenance. Checks needing the parsed structure are
+# reported as skipped rather than silently omitted.
+
+_EXCERPT = re.compile(
+    r"""^\s*(?:-\s*)?excerpt:\s*(?:
+          "((?:[^"\\]|\\.)*)"     # double-quoted
+        | '((?:[^'\\]|\\.)*)'     # single-quoted
+        | ([^\n#]+?)              # bare scalar
+        )\s*$""",
+    re.M | re.X,
+)
+_NAME = re.compile(r"^\s*(?:-\s*)?name:\s*([A-Za-z_][A-Za-z_0-9]*)\s*$", re.M)
+
+
+def excerpts_without_yaml(raw: str) -> list[str]:
+    """Pull every `excerpt:` scalar out of raw YAML text, no parser required.
+
+    Deliberately simple. It does not understand block scalars (`|`, `>`), so an
+    excerpt written as a block is missed rather than mis-read; that under-reports
+    and never invents a pass.
+    """
+    out = []
+    for m in _EXCERPT.finditer(raw):
+        val = next((g for g in m.groups() if g is not None), "").strip()
+        if val and val.lower() not in ("null", "~", "none", ""):
+            out.append(val.replace('\\"', '"').replace("\\'", "'"))
+    return out
+
 
 def snippet_text(key: str, snippets_dir: pathlib.Path | None = None) -> str:
     """Load the source passage a run was shown.
@@ -143,13 +175,23 @@ def check_run(record: dict, snippets_dir: pathlib.Path | None = None) -> list[di
             return findings
     source_n = norm(source).lower()
 
+    raw = strip_fence(record.get("content", ""))
+
     try:
         import yaml
     except ImportError:
-        add("PARSE", "error", "PyYAML not installed: pip install pyyaml")
+        # No third-party packages available. Run E1 only, and say so.
+        found = excerpts_without_yaml(raw)
+        for e in found:
+            if norm(e).lower() in source_n:
+                add("E1", "pass", "excerpt is an exact substring of the source")
+            else:
+                add("E1", "error", f"excerpt NOT found in source: {e[:90]!r}")
+        add("MODE", "skip",
+            f"PyYAML absent: ran E1 on {len(found)} excerpt(s); "
+            f"E2-E8 need the parsed document. `pip install pyyaml` for all eight.")
         return findings
 
-    raw = strip_fence(record.get("content", ""))
     if not raw:
         add("PARSE", "error", "empty content on an ok run")
         return findings
