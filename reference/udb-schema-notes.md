@@ -233,6 +233,41 @@ a **system-level invariant**, and UDB's parameters are largely **per-hart**.
 There may be no clean place to express it in a single param file. Flag it as an
 open question rather than inventing a field for it.
 
+## 6a. Incidental finding — duplicate index in `HPM_EVENTS.yaml`
+
+Found while verifying a public claim about `definedBy` complexity, not while
+working on the snippets. Recorded because it is verified and small.
+
+`spec/std/isa/param/HPM_EVENTS.yaml` gates on `allOf` over extension `Sm` plus a
+`param.anyOf` across `HPM_COUNTER_EN` indices. The `anyOf` has **30 entries but
+only 29 distinct indices** — index **4 appears twice**:
+
+```
+indices : [3, 4, 4, 5, 6, 7, ... 31]
+duplicate: {4: 2}
+distinct : 29
+```
+
+29 distinct is the correct count (`mhpmcounter3`..`mhpmcounter31`), so the
+intended semantics are right and an `anyOf` containing a duplicate is redundant
+rather than wrong. It is a tidy-up, not a defect with behaviour.
+
+Same family as the already-merged #2118, which corrected inverted `type()` logic
+across 29 `scountovf` fields.
+
+### Verified composition of `definedBy` across all 227 parameters
+
+Useful context for how much a model would have to infer to propose this field:
+
+| Shape | Count | Share |
+|---|---:|---:|
+| single bare extension reference | 173 | 76.2% |
+| `extension:` containing `anyOf`/`allOf` | 31 | 13.7% |
+| top-level boolean combinator | 18 | 7.9% |
+| param-gated only | 5 | 2.2% |
+| **not a single bare extension** | **54** | **23.8%** |
+| **gated on another parameter's value** | **23** | **10.1%** |
+
 ## 7. Open questions for the SIG
 
 1. Is `long_name` being deprecated, or should the 163 `TODO`s be filled?
