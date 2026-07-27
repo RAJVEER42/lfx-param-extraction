@@ -78,11 +78,11 @@ python3 scripts/validate.py --snippets-dir /path/to/chunks results/*/v2
 or by adding a `source_text` field to each record, which takes precedence and
 removes any layout coupling.
 
-⚠️ **This was genuinely broken until now.** Until commit `0ce8ee1` the validator
+⚠️ **This was genuinely broken until now.** Before commit `6ae4488` the validator
 hardcoded `REPO/snippets/<key>.txt` and crashed with `FileNotFoundError` on any
-foreign corpus. The offer on #2053 was made before that was checked. It is fixed
-and tested against a synthetic foreign corpus, but the honest note is that the
-portability was asserted before it was true.
+foreign corpus. The offer on #2053 was made before anyone checked that. It is now
+fixed and tested against a synthetic foreign corpus — but the honest note is that
+the portability was offered before it was true.
 
 ### The eight checks
 

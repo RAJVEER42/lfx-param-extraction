@@ -548,6 +548,7 @@ not an assumption.
 | [`scripts/audit_claims.py`](scripts/) | **Re-derives all 51 numeric claims in this README from `results/`** |
 | [`.claude/skills/param-extract/`](.claude/skills/) | **Reusable skill** — proposal item 3 |
 | [`run.sh`](run.sh) | One-command reproduction |
+| [`HANDOVER.md`](HANDOVER.md) | The instrument, packaged for reuse at corpus scale |
 | [`reference/`](reference/) | Verified notes: UDB schema, models, prior art |
 
 Git history is deliberate evidence: one commit per phase, and the **ordering**

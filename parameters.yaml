@@ -105,6 +105,37 @@ parameters:
 # ===========================================================================
 # REJECTED CANDIDATES
 #
+# TWO AXES, deliberately kept separate. They answer different questions and
+# compose rather than compete:
+#
+#   `reason` below  -- WHY THIS IS NOT A PARAMETER. A property of the passage
+#                      and the architecture. This is what an extractor decides.
+#
+#   `udb_absence`   -- WHY UDB DOES NOT HAVE IT, where a candidate is absent
+#                      from the 227 upstream parameter files. A property of the
+#                      database, checkable against the repo without knowing
+#                      which model proposed the candidate. Relevant to
+#                      proposal item 2 ("extend the current classification
+#                      scheme as needed"), because measuring *discovery*
+#                      requires distinguishing a real gap from a deliberate
+#                      omission.
+#
+#      real_gap     arguably should exist as a parameter
+#                   e.g. Smpmpmt's implementation-defined PMA override, which
+#                   has no parameter and no params key at all
+#      udb_derives  computed from other choices, so deliberately not a
+#                   parameter. e.g. IALIGN, which globals.isa:797 derives from
+#                   the C extension and misa.C. Verified.
+#      out_of_scope microarchitectural or execution-environment
+#
+# ON THE OVERLAP: `out_of_scope` and reason `NOT_ISA_VISIBLE` largely coincide,
+# and carrying both unreconciled would be redundant. The distinction that earns
+# its keep: NOT_ISA_VISIBLE is a judgement about the candidate; out_of_scope is
+# an observation about UDB's modelling boundary. They can disagree — a value can
+# be ISA-visible and still absent from UDB because UDB derives it, which is
+# exactly the IALIGN case. Where they agree, `udb_absence` is omitted below as
+# adding nothing.
+#
 # Reason codes:
 #   NOT_ISA_VISIBLE          implementation may choose, but no ISA-visible
 #                            behaviour depends on it -- microarchitectural
