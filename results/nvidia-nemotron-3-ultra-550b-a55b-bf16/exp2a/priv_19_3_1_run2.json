@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:21:28.204378+00:00",
+  "prompt_version": "exp2a",
+  "snippet": "priv_19_3_1",
+  "run_index": 2,
+  "model_requested": "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 12000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: Size of a cache block in bytes, which must be a power of two and uniform across all caches in the system.\n    type: integer\n    constraints:\n      power_of_two: true\n      note: \"Must be uniform throughout the system in the initial set of CMO extensions.\"\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific, and the execution environment provides software a means to discover information about the caches and cache blocks in a system. In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: CMO instructions (e.g., CBO.CLEAN, CBO.FLUSH, CBO.INVAL) operate on cache blocks of this size; software must know the block size to use them correctly.\n    confidence: high\n\nrejected:\n  - candidate: Cache capacity\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific, and the execution environment provides software a means to discover information about the caches and cache blocks in a system.\"\n    explanation: The passage states cache capacity is implementation-specific but does not indicate that any ISA instruction behavior or ISA-defined software-readable state depends on it; the discovery mechanism is provided by the execution environment, not the ISA.\n  - candidate: Cache organization\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific, and the execution environment provides software a means to discover information about the caches and cache blocks in a system.\"\n    explanation: Cache organization is implementation-specific but not used by any ISA-defined instruction or state in the passage.",
+  "reasoning_chars": 16111,
+  "finish_reason": "stop",
+  "prompt_tokens": 1512,
+  "completion_tokens": 3732,
+  "model_echoed": "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B",
+  "elapsed_s": 33.6,
+  "status": "ok"
+}

@@ -1,0 +1,42 @@
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: The size of a cache block.
+    type: integer
+    constraints:
+      power_of_two: true
+    excerpt: "the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover information about cache blocks through execution environment-provided means.
+    confidence: high
+  - name: CACHE_CAPACITY
+    long_name: Cache capacity
+    description: The capacity of a cache.
+    type: integer
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover information about the caches through execution environment-provided means.
+    confidence: high
+  - name: CACHE_ORGANIZATION
+    long_name: Cache organization
+    description: The organization of a cache.
+    type: string
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover information about the caches through execution environment-provided means.
+    confidence: medium
+
+rejected:
+  - candidate: Uniform cache block size throughout the system
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "the size of a cache block shall be uniform throughout the system"
+    explanation: The architecture requires uniform cache block size; this is a constraint, not an implementation choice.
+  - candidate: Cache block is naturally aligned power-of-two
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations"
+    explanation: The architecture fixes that cache blocks are NAPOT; this is not an implementation choice.

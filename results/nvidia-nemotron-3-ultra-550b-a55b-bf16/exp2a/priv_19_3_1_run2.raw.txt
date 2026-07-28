@@ -1,0 +1,23 @@
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: Size of a cache block in bytes, which must be a power of two and uniform across all caches in the system.
+    type: integer
+    constraints:
+      power_of_two: true
+      note: "Must be uniform throughout the system in the initial set of CMO extensions."
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific, and the execution environment provides software a means to discover information about the caches and cache blocks in a system. In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: CMO instructions (e.g., CBO.CLEAN, CBO.FLUSH, CBO.INVAL) operate on cache blocks of this size; software must know the block size to use them correctly.
+    confidence: high
+
+rejected:
+  - candidate: Cache capacity
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific, and the execution environment provides software a means to discover information about the caches and cache blocks in a system."
+    explanation: The passage states cache capacity is implementation-specific but does not indicate that any ISA instruction behavior or ISA-defined software-readable state depends on it; the discovery mechanism is provided by the execution environment, not the ISA.
+  - candidate: Cache organization
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific, and the execution environment provides software a means to discover information about the caches and cache blocks in a system."
+    explanation: Cache organization is implementation-specific but not used by any ISA-defined instruction or state in the passage.

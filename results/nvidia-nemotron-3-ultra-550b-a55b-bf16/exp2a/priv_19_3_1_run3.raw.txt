@@ -1,0 +1,51 @@
+parameters:
+  - name: CACHE_CAPACITY
+    long_name: Cache capacity
+    description: The capacity of a cache.
+    type: integer
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: "CMO"
+    isa_visible: Software can discover the cache capacity through the execution environment's cache discovery mechanism.
+    confidence: high
+
+  - name: CACHE_ORGANIZATION
+    long_name: Cache organization
+    description: The organization of a cache (e.g., associativity, set structure).
+    type: string
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: "CMO"
+    isa_visible: Software can discover the cache organization through the execution environment's cache discovery mechanism.
+    confidence: medium
+
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: The size of a cache block, which must be a power-of-two (or NAPOT) naturally aligned range and uniform across the system.
+    type: integer
+    constraints:
+      power_of_two: true
+      note: "Must be uniform throughout the system per CMO extensions"
+    excerpt: "the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: "CMO"
+    isa_visible: Software can discover the cache block size through the execution environment's cache discovery mechanism; CMO instructions operate on cache blocks of this size.
+    confidence: high
+
+rejected:
+  - candidate: Uniform cache block size across system
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    explanation: The architecture requires uniformity ("shall be uniform"), so implementations cannot choose this; it is a constraint, not a parameter.
+
+  - candidate: Cache block identification by physical address
+    reason: NOT_ISA_VISIBLE
+    excerpt: "A cache block is identified by any of the physical addresses corresponding to the underlying memory locations."
+    explanation: This describes how cache blocks are identified, not an implementation choice; no software-observable variation exists.
+
+  - candidate: NAPOT range property of cache blocks
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations"
+    explanation: The architecture mandates that cache blocks be NAPOT ranges; implementations cannot choose otherwise.

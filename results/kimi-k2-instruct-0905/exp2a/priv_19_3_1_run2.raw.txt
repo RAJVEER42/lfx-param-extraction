@@ -1,0 +1,32 @@
+parameters:
+  - name: CACHE_CAPACITY
+    long_name: Cache capacity
+    description: The capacity of a cache.
+    type: integer
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover information about the caches via execution environment means
+    confidence: medium
+  - name: CACHE_ORGANIZATION
+    long_name: Cache organization
+    description: The organization of a cache.
+    type: string
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover information about the caches via execution environment means
+    confidence: medium
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: The size of a cache block.
+    type: integer
+    constraints:
+      note: uniform throughout the system
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover information about cache blocks via execution environment means
+    confidence: medium
+
+rejected: []

@@ -1,0 +1,51 @@
+parameters:
+  - name: CACHE_CAPACITY
+    long_name: Cache capacity
+    description: Total capacity of a cache, chosen by the implementation.
+    type: integer
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the cache capacity via the execution environment's discovery mechanism, and capacity affects cache behavior and performance.
+    confidence: high
+  - name: CACHE_ORGANIZATION
+    long_name: Cache organization
+    description: Organization of a cache (e.g., set-associativity, number of ways), chosen by the implementation.
+    type: string
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the cache organization via the execution environment's discovery mechanism, and organization affects cache behavior and performance.
+    confidence: high
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: Size of a cache block, chosen by the implementation but must be uniform across all caches in the system for the initial CMO extensions.
+    type: integer
+    constraints:
+      power_of_two: true
+      note: "Must be uniform throughout the system for the initial set of CMO extensions."
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the cache block size via the execution environment's discovery mechanism; CMO (Cache Management Operation) instructions depend on this size, and it must be uniform across the system.
+    confidence: high
+
+rejected:
+  - candidate: NAPOT range alignment requirement
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations"
+    explanation: The power-of-two alignment is a fixed architectural requirement for cache blocks, not an implementation choice.
+  - candidate: CMO extension set
+    reason: NOT_STATED_IN_TEXT
+    excerpt: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    explanation: The passage mentions CMO extensions but does not define any parameter about which extensions are implemented.
+  - candidate: Uniformity of cache block size across system
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    explanation: This is a constraint on the CACHE_BLOCK_SIZE parameter, not a separate architectural parameter.
+  - candidate: Cache block identification by physical address
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "A cache block is identified by any of the physical addresses corresponding to the underlying memory locations."
+    explanation: The identification method is fixed by the architecture, not chosen by the implementation.

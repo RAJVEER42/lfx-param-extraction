@@ -1,0 +1,32 @@
+parameters:
+  - name: CACHE_CAPACITY_AND_ORGANIZATION
+    long_name: Cache capacity and organization
+    description: Implementation-specific choices for cache capacity and organization.
+    type: string
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific,"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover information about caches and cache blocks via execution-environment-provided means.
+    confidence: high
+
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: Implementation-specific size of a cache block.
+    type: integer
+    constraints:
+      power_of_two: true
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific,"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover cache block size via execution-environment-provided means; uniform block size affects behavior of CMO operations.
+    confidence: high
+
+rejected:
+  - candidate: Uniform cache block size across the system
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    explanation: The architecture requires uniformity in the initial CMO extension set, so implementations cannot choose a non-uniform size there; not an implementation choice.
+  - candidate: Caches organize data into naturally aligned power-of-two (NAPOT) ranges
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "Caches organize copies of data into cache blocks, each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations."
+    explanation: This is a fixed architectural rule, not an implementation choice.

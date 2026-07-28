@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:20:41.682778+00:00",
+  "prompt_version": "exp2a",
+  "snippet": "priv_19_3_1",
+  "run_index": 1,
+  "model_requested": "inclusionAI/Ling-2.6-1T",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 12000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_CAPACITY_AND_ORGANIZATION\n    long_name: Cache capacity and organization\n    description: Implementation-specific choices for cache capacity and organization.\n    type: string\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific,\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover information about caches and cache blocks via execution-environment-provided means.\n    confidence: high\n\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: Implementation-specific size of a cache block.\n    type: integer\n    constraints:\n      power_of_two: true\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific,\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover cache block size via execution-environment-provided means; uniform block size affects behavior of CMO operations.\n    confidence: high\n\nrejected:\n  - candidate: Uniform cache block size across the system\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.\"\n    explanation: The architecture requires uniformity in the initial CMO extension set, so implementations cannot choose a non-uniform size there; not an implementation choice.\n  - candidate: Caches organize data into naturally aligned power-of-two (NAPOT) ranges\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"Caches organize copies of data into cache blocks, each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations.\"\n    explanation: This is a fixed architectural rule, not an implementation choice.",
+  "reasoning_chars": 0,
+  "finish_reason": "stop",
+  "prompt_tokens": 1575,
+  "completion_tokens": 397,
+  "model_echoed": "inclusionai/ling-2.6-1t",
+  "elapsed_s": 3.65,
+  "status": "ok"
+}

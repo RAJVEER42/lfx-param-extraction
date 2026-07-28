@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:20:59.254366+00:00",
+  "prompt_version": "exp2a",
+  "snippet": "priv_19_3_1",
+  "run_index": 1,
+  "model_requested": "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 12000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_CAPACITY\n    long_name: Cache capacity\n    description: Total capacity of a cache, chosen by the implementation.\n    type: integer\n    constraints: {}\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover the cache capacity via the execution environment's discovery mechanism, and capacity affects cache behavior and performance.\n    confidence: high\n  - name: CACHE_ORGANIZATION\n    long_name: Cache organization\n    description: Organization of a cache (e.g., set-associativity, number of ways), chosen by the implementation.\n    type: string\n    constraints: {}\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover the cache organization via the execution environment's discovery mechanism, and organization affects cache behavior and performance.\n    confidence: high\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: Size of a cache block, chosen by the implementation but must be uniform across all caches in the system for the initial CMO extensions.\n    type: integer\n    constraints:\n      power_of_two: true\n      note: \"Must be uniform throughout the system for the initial set of CMO extensions.\"\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover the cache block size via the execution environment's discovery mechanism; CMO (Cache Management Operation) instructions depend on this size, and it must be uniform across the system.\n    confidence: high\n\nrejected:\n  - candidate: NAPOT range alignment requirement\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations\"\n    explanation: The power-of-two alignment is a fixed architectural requirement for cache blocks, not an implementation choice.\n  - candidate: CMO extension set\n    reason: NOT_STATED_IN_TEXT\n    excerpt: \"In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.\"\n    explanation: The passage mentions CMO extensions but does not define any parameter about which extensions are implemented.\n  - candidate: Uniformity of cache block size across system\n    reason: CONSTRAINT_NOT_PARAMETER\n    excerpt: \"In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.\"\n    explanation: This is a constraint on the CACHE_BLOCK_SIZE parameter, not a separate architectural parameter.\n  - candidate: Cache block identification by physical address\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"A cache block is identified by any of the physical addresses corresponding to the underlying memory locations.\"\n    explanation: The identification method is fixed by the architecture, not chosen by the implementation.",
+  "reasoning_chars": 8781,
+  "finish_reason": "stop",
+  "prompt_tokens": 1512,
+  "completion_tokens": 2539,
+  "model_echoed": "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B",
+  "elapsed_s": 28.8,
+  "status": "ok"
+}

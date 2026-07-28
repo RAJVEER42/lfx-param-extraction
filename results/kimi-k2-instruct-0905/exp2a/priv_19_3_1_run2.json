@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:20:19.037551+00:00",
+  "prompt_version": "exp2a",
+  "snippet": "priv_19_3_1",
+  "run_index": 2,
+  "model_requested": "moonshotai/Kimi-K2-Instruct-0905",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 12000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_CAPACITY\n    long_name: Cache capacity\n    description: The capacity of a cache.\n    type: integer\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover information about the caches via execution environment means\n    confidence: medium\n  - name: CACHE_ORGANIZATION\n    long_name: Cache organization\n    description: The organization of a cache.\n    type: string\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover information about the caches via execution environment means\n    confidence: medium\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: The size of a cache block.\n    type: integer\n    constraints:\n      note: uniform throughout the system\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover information about cache blocks via execution environment means\n    confidence: medium\n\nrejected: []",
+  "reasoning_chars": 0,
+  "finish_reason": "stop",
+  "prompt_tokens": 1466,
+  "completion_tokens": 278,
+  "model_echoed": "moonshotai/kimi-k2-0905",
+  "elapsed_s": 10.13,
+  "status": "ok"
+}
