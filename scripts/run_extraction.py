@@ -210,7 +210,11 @@ def main() -> int:
     system, user_t = load_prompt(args.prompt)
     keys = list(SNIPPETS) if args.snippet == "all" else [args.snippet]
     outdir = REPO / "results" / slug(args.model) / args.prompt
-    outdir.mkdir(parents=True, exist_ok=True)
+    # Only create the output directory when something will be written. A dry run
+    # used to leave an empty results/<model>/ behind, which is confusing clutter
+    # for anyone reading the repo.
+    if not args.dry_run:
+        outdir.mkdir(parents=True, exist_ok=True)
 
     fn = PROVIDERS[args.provider]
     failures, ok = 0, 0
