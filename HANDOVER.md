@@ -78,7 +78,7 @@ python3 scripts/validate.py --snippets-dir /path/to/chunks results/*/v2
 or by adding a `source_text` field to each record, which takes precedence and
 removes any layout coupling.
 
-⚠️ **This was genuinely broken until now.** Before commit `6ae4488` the validator
+⚠️ **This was genuinely broken until now.** Before commit `77bace9` the validator
 hardcoded `REPO/snippets/<key>.txt` and crashed with `FileNotFoundError` on any
 foreign corpus. The offer on #2053 was made before anyone checked that. It is now
 fixed and tested against a synthetic foreign corpus — but the honest note is that
@@ -207,4 +207,4 @@ and were not chased — **do not assert a category for those.**
 Code and prose here are freely reusable. If the capacity result is cited, the
 useful pointers are `analysis/v2_delta.md` §4 for the finding and
 `ground_truth.md` §6 for the predictions it was scored against — the latter
-committed at `9d3a0cb`, before any model output existed.
+committed at `16ea944`, before any model output existed.
