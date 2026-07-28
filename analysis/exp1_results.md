@@ -100,6 +100,45 @@ requiring models to state their justification.
 9 in both versions. `CACHE_BLOCK_SIZE` was never missed."* True as stated, and
 misleading. It should be read alongside this section.
 
+## 4a. The reasoning predicts the answer, and this needs no new runs
+
+Re-reading the committed v2 output settles the mechanism, from data that already
+existed before this experiment.
+
+`gemini-3.6-flash` is the one model that rejected cache capacity in 3 of 3 v2
+runs. It is also the **only** model of the three that gave the correct
+ISA-visibility argument:
+
+| Model | `isa_visible` for `CACHE_BLOCK_SIZE` | Over-extracted capacity |
+|---|---|---|
+| **gemini-3.6-flash** | *"Cache block management instructions operate on memory aligned to and sized by the cache block size."* Cites the operations. Correct | **no, 0 of 3** |
+| DeepSeek-V4-Pro | *"Software can discover the cache block size through the means provided by the execution environment."* | yes |
+| gemini-2.5-flash | *"Software can discover this information through means provided by the execution environment."* | yes |
+
+Two of the three `gemini-3.6-flash` runs cite the operations and **never mention
+discovery at all**.
+
+The correlation across the three models is exact: **the model holding the correct
+argument is precisely the model producing the correct answer set.** Over-extraction
+is downstream of using the wrong ISA-visibility test, not an independent defect.
+
+That upgrades what `isa_visible` is for. It does not merely explain a false
+positive after the fact, it **predicts which model will produce one**. A reviewer
+can read the justification and anticipate the error before checking the answer.
+
+### A falsifiable prediction, deliberately left unrun
+
+If the mechanism above is right, then `gemini-3.6-flash` should **keep**
+`CACHE_BLOCK_SIZE` in Arm B, because its reasoning does not depend on the deleted
+clause. That is the opposite of what DeepSeek and `gpt-oss-120b` did, and it is a
+clean test.
+
+It is unrun because no working Gemini key was available (§6). Recording it as a
+prediction rather than quietly dropping it: **`gemini-3.6-flash` extracts
+`CACHE_BLOCK_SIZE` in ≥2 of 3 Arm B runs.** Anyone with a key can falsify it in
+about two minutes, and a failure would mean the clause matters even to a model that
+was not visibly relying on it.
+
 ## 5. A second, independent instance of the elided quote
 
 X6 refuted: 10 of 12 runs clean, 4 errors, all E1. Two are new instances of the
