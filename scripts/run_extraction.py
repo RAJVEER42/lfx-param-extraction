@@ -47,10 +47,16 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 SNIPPETS = {
     "priv_19_3_1": "snippets/priv_19_3_1.txt",
     "priv_2_1": "snippets/priv_2_1.txt",
+    # Derived, not spec text. One clause deleted for the minimal-edit pair
+    # experiment; see analysis/exp1_prereg.md.
+    "priv_19_3_1_nodiscovery": "snippets/priv_19_3_1_nodiscovery.txt",
 }
 SOURCE_LABEL = {
     "priv_19_3_1": "RISC-V Privileged ISA Specification, section 19.3.1",
     "priv_2_1": "RISC-V Privileged ISA Specification, section 2.1",
+    # Same label as the unedited passage on purpose: the label must not be the
+    # variable that differs between arms.
+    "priv_19_3_1_nodiscovery": "RISC-V Privileged ISA Specification, section 19.3.1",
 }
 HEADER_PREFIXES = ("Source:", "Provided ")
 
