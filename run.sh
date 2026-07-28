@@ -38,10 +38,19 @@ hr "2. Validate committed model output (offline)"
 # Runs the same checks that caught a fabricated quotation in the committed v2
 # output. Expected: v1 fails (it has no excerpt field at all, and contains
 # signal words used as constraint values); v2 has exactly one E1 failure.
-echo "--- v1 (expected to FAIL: no provenance fields, category errors) ---"
+if python3 -c "import yaml" 2>/dev/null; then
+  echo "--- v1 (expected to FAIL: no provenance fields, category errors) ---"
+else
+  # Without PyYAML only E1 runs, and v1 has no excerpt field for E1 to check, so
+  # v1 reports clean. Its real failures are E2 and E8, which need the parsed
+  # document. Say so, rather than letting "24/24 clean" contradict the label.
+  echo "--- v1 (PyYAML absent: will report CLEAN, which is misleading) ---"
+  echo "    v1's failures are E2 and E8 and need PyYAML. E1 alone cannot fail on"
+  echo "    v1 because v1 has no excerpt field. Install pyyaml to see the real result."
+fi
 python3 scripts/validate.py results/*/v1 2>&1 | tail -5 || true
 echo
-echo "--- v2 (expected: 17/18 clean, 1 elided-quote failure) ---"
+echo "--- v2 (expected: 17/18 clean, 1 elided-quote failure; holds without PyYAML) ---"
 python3 scripts/validate.py results/*/v2 2>&1 | tail -8 || true
 
 hr "3. Audit every quantitative claim against the raw data (offline)"
