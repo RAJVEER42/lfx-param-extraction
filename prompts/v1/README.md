@@ -1,6 +1,6 @@
 # Prompt v1 — design notes
 
-Phase 2 of `PLAN.md`. Written after `ground_truth.md` and committed before any
+Phase 2 of the build plan. Written after `ground_truth.md` and committed before any
 run.
 
 Files: [`system.md`](system.md) · [`user_template.md`](user_template.md)

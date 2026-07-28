@@ -1,6 +1,6 @@
 # v1 → v2 delta
 
-Phase 7 of `PLAN.md`. Scored against `ground_truth.md` (`9d3a0cb`) using
+Phase 7 of the build plan. Scored against `ground_truth.md` (`9d3a0cb`) using
 `scripts/validate.py`, committed at `2c1badf` — **before any v2 output existed**.
 
 **Headline: v2 improved, unevenly, and for a diagnosable reason. The most

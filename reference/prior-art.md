@@ -16,7 +16,7 @@ worse than not citing it at all.
 
 | Person | Contribution |
 |---|---|
-| **`hjaat`** | Opened the issue. Raised the CSR-field/WARL misclassification and duplication problem *conceptually*, credited to a Slack exchange with **Allen Baum**. Wrote a [gist](https://gist.github.com/hjaat/7ab4f66dcda775fe089b28cb4d47e6bb) on an extraction approach. **Did not run the evaluation.** |
+| **`hjaat`** | Opened the issue. Raised the CSR-field/WARL misclassification and duplication problem *conceptually*, credited to a Slack exchange with **Allen Baum**. Wrote a [gist](https://gist.github.com/hjaat/7ab4f66dcda775fe089b28cb4d47e6bb) on an extraction approach. The evaluation itself was run by `titoatwork`, below. |
 | **`titoatwork`** | Ran the actual measurement: regenerated ground truth, per-class recall, the WARL prompt ablation, cross-model agreement. Posted the "legal-value set must be implementation-chosen" refinement. Then posted a **public self-correction** invalidating his own headline framing |
 | **`Maanvi212006`** | Pointed `hjaat` to PRs #1831 / #1832 |
 | **`ishaan-arora-1`** | Part I mentee. **Stated the current pipeline is internal and unpublished** |
@@ -84,10 +84,10 @@ nuance sharpens the point rather than weakening it.
 
 ### Consequences for us
 
-1. **Do not cite "69.7% recall" as a discovery benchmark.** `HANDOFF.md` §6
-   frames Part I's PRs as "the rubric" and its numbers as the bar. As a
-   discovery number, 69.7% is not that. Repeating it that way reproduces an
-   error that has now been publicly corrected on an issue our mentor reads.
+1. **Do not cite "69.7% recall" as a discovery benchmark.** Part I's PRs are
+   sometimes read as "the rubric" and its numbers as the bar. As a discovery
+   number, 69.7% is not that. Repeating it that way reproduces an error that
+   has since been publicly corrected.
 2. Any recall figure we report must state whether names were supplied.
 3. The genuinely unmeasured quantity is recall **without** the name list.
    `titoatwork` has [preregistered](https://github.com/titoatwork/lfx-firstanalysis/blob/main/riscv-param-extraction/artifact_c/PREREGISTRATION.md)
@@ -209,7 +209,6 @@ not be trusted without a review gate.
 > version of the pipeline […] the pipeline has evolved ever since.
 
 So **#1765–#1832 are background, not current state, and not "the rubric."**
-`HANDOFF.md` §6 needs correcting on this point.
 
 `titoatwork`'s scoping argument, which we should take seriously:
 
@@ -218,22 +217,5 @@ So **#1765–#1832 are background, not current state, and not "the rubric."**
 > per-class recall, cross-model agreement. An extractor gets superseded by the
 > next model; a test set that tells you whether an extractor works doesn't.
 
-This agrees with our `PLAN.md` phases 1 and 6 (ground truth written first; a
+This agrees with our build plan phases 1 and 6 (ground truth written first; a
 mechanical validator). Keep that emphasis.
-
-## 9. Competitive picture — read plainly
-
-At least three other applicants are publicly active on this one issue:
-`hjaat`, `Maanvi212006`, `titoatwork`. `titoatwork` is running preregistered
-experiments, keeping a claim ledger, and publicly self-correcting. The bar is
-higher than `HANDOFF.md` assumed.
-
-**Where we are differentiated:** nobody in that thread has read the *target
-schema*. The pow2 enum/Z3 divergence and the 163/227 `long_name: TODO` finding
-(`udb-schema-notes.md`) are UDB-internal findings about where parameters *land*,
-not about how the pipeline scores. That is a different axis, and it is closer to
-proposal **item 4** (export in UDB YAML format) than any measurement work.
-
-**Where we should not compete:** re-measuring Part I. It is done, publicly, by
-someone with more data than two snippets. Cite it, credit it correctly, build on
-the principle.

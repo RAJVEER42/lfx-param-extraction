@@ -5,7 +5,7 @@
 > git commit timestamp is the evidence for that ordering; check it against the
 > timestamps on anything in `results/`.
 >
-> Phase 1 of `PLAN.md`. No API calls were made in producing this file.
+> Phase 1 of the build plan. No API calls were made in producing this file.
 
 **Method.** Mechanical trigger scan (`scripts/scan_triggers.py` logic, output
 reproduced in §1) → enumerate every candidate a reasonable extractor could

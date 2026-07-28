@@ -338,5 +338,4 @@ SIG rather than an assumption.
 | `scripts/` | Trigger scan, runner, validator, UDB schema check, claim audit |
 | `.claude/skills/param-extract/` | Reusable skill |
 | `HANDOVER.md` | The instrument, packaged for reuse at corpus scale |
-| `DEFENSE.md` | Q&A prep, including what must not be claimed |
 | `reference/` | Verified notes on the UDB schema, the models, and prior art |

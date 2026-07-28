@@ -1,6 +1,6 @@
 # v1 failure analysis
 
-Phase 4 of `PLAN.md`. Scored against `ground_truth.md`, which was committed
+Phase 4 of the build plan. Scored against `ground_truth.md`, which was committed
 (`9d3a0cb`) **before** any run in `results/` existed.
 
 18 runs attempted · 18 recorded · 12 usable extractions from 3 models.

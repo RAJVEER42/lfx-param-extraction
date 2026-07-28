@@ -1,6 +1,6 @@
 # Prompt v2 — design notes
 
-Phase 5 of `PLAN.md`. Every change below is traceable to a specific v1 failure
+Phase 5 of the build plan. Every change below is traceable to a specific v1 failure
 in `analysis/v1_failures.md`. Nothing was changed on intuition.
 
 Files: [`system.md`](system.md) · [`user_template.md`](user_template.md)

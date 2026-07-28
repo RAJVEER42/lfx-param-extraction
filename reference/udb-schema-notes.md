@@ -1,6 +1,6 @@
 # UDB parameter schema — verified notes
 
-Phase 0 of `PLAN.md`. Purpose: know the real target schema before generating
+Phase 0 of the build plan. Purpose: know the real target schema before generating
 anything, so no field name in our output is guessed.
 
 **Everything here was read from the source, not recalled.**

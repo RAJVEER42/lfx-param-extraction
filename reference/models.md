@@ -58,7 +58,7 @@ correctly, unprompted.
 > not a reassurance: it means a correct-looking answer may come from training
 > data rather than from the snippet. It is exactly why the v2 prompt must force
 > a verbatim `excerpt` and why the validator checks it is a real substring.
-> See `notes/phase-0.md` and the 2.1 "which CSRs exist" trap.
+> See the 2.1 "which CSRs exist" trap in `ground_truth.md`.
 
 ## 3. ⚠️ Methodology trap found during setup
 
