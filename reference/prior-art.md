@@ -143,6 +143,49 @@ name again.
 `titoatwork`'s measurements of his own reproduction. Cite as *reported by*, and
 note we verified the name-injection claim underneath them but not the scoring.
 
+## 4a. A second defect, independent of the name injection
+
+§2 records one problem with Part I's published figures: the gold names were in the
+prompt, so recall measures grounding. There is a **second, separate** problem, and
+fixing the first does not fix it.
+
+`titoatwork` reran the published condition with a **byte-identical prompt**, same
+model, same prompt version, as Arm A of his four-arm study. Reported on #2053:
+
+| | Published | Arm A rerun |
+|---|---|---|
+| WARL recall | 3/24 | **9/24** |
+| Overall adjusted recall | 32.2% | 33.9% |
+
+The aggregate barely moved. The per-class number tripled. So the instability is
+concentrated in exactly the small-denominator class any WARL claim would rest on.
+
+**Why this matters more than it first looks.** Part I's published v1 → v2
+improvement was measured the same way: single runs per condition. If a byte-identical
+prompt can move WARL from 3/24 to 9/24, then a v1 → v2 delta measured once per
+condition cannot distinguish a prompt improvement from run-to-run variance. The
+reported improvement may be real, but the measurement as performed cannot establish
+it.
+
+That is a different failure from name injection. Supplying no catalogue fixes §2 and
+leaves this untouched. Both have to be addressed before any per-class figure from
+that pipeline is quotable.
+
+**What we do about it.** Our own numbers are aggregates over 9 or 18 runs, never a
+single run, and N=3 was fixed in advance for this reason
+(`reference/models.md` §4). `scripts/audit_claims.py` re-derives every per-class
+count from the raw records, so the denominators are visible rather than asserted.
+
+The rule worth keeping, in `titoatwork`'s framing: **do not release per-class
+numbers from a single run.** That holds even after the instability is understood,
+because the fix is more runs, not a better explanation.
+
+🔸 Not independently verified: the 3/24 versus 9/24 figures are his measurements of
+his own reruns. Cite as reported by. The general point, that a single run cannot
+support a per-class claim, stands on its own and matches what we observed directly
+(`analysis/v1_failures.md` §6, where one model produced three distinct outputs at
+`temperature=0`).
+
 ## 5. 🔑 The principle — and why it is the same one we found
 
 `titoatwork`, on WARL:
