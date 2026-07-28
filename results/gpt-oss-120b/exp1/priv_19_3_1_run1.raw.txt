@@ -1,0 +1,42 @@
+parameters:
+  - name: CACHE_CAPACITY
+    long_name: Cache capacity
+    description: Capacity of a cache, chosen by the implementation.
+    type: integer
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the cache capacity through the execution environment's cache discovery mechanism.
+    confidence: high
+  - name: CACHE_ORGANIZATION
+    long_name: Cache organization
+    description: Organization of a cache (e.g., associativity, number of sets), chosen by the implementation.
+    type: string
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the cache organization through the execution environment's cache discovery mechanism.
+    confidence: high
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: Size of a cache block, chosen by the implementation and uniform throughout the system.
+    type: integer
+    constraints:
+      power_of_two: true
+      note: "Uniform throughout the system"
+    excerpt: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    trigger: "shall be uniform throughout the system"
+    defined_by: "CMO extensions"
+    isa_visible: Software can discover the cache block size via the execution environment's cache discovery mechanism.
+    confidence: high
+rejected:
+  - candidate: uniformity of cache block size
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    explanation: The requirement that all cache blocks have the same size is a fixed architectural rule, not an implementation choice.
+  - candidate: power‑of‑two or NAPOT range requirement
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations"
+    explanation: The block must be a power‑of‑two (or NAPOT) range, which is a constraint imposed by the architecture, not a selectable parameter.

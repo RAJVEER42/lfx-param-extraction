@@ -1,0 +1,42 @@
+parameters:
+  - name: CACHE_CAPACITY
+    long_name: Cache capacity
+    description: The capacity of a cache.
+    type: integer
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the capacity of each cache via the execution environment's provided means.
+    confidence: high
+  - name: CACHE_ORGANIZATION
+    long_name: Cache organization
+    description: The organization of a cache (e.g., set-associativity, number of ways).
+    type: string
+    constraints: {}
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the organization of each cache via the execution environment's provided means.
+    confidence: high
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: The size of a cache block.
+    type: integer
+    constraints:
+      power_of_two: true
+      note: The size shall be uniform throughout the system.
+    excerpt: "the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the cache block size via the execution environment's provided means.
+    confidence: high
+rejected:
+  - candidate: Discovery mechanism for cache information
+    reason: NOT_STATED_IN_TEXT
+    excerpt: "the execution environment provides software a means to discover information about the caches and cache blocks in a system"
+    explanation: The passage does not state that the discovery mechanism itself is implementation-specific; it only requires that one exists.
+  - candidate: Uniformity of cache block size
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: "the size of a cache block shall be uniform throughout the system"
+    explanation: This is a restriction on the cache block size parameter, not a separate implementation choice.

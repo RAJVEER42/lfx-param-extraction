@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:04:39.696402+00:00",
+  "prompt_version": "exp1",
+  "snippet": "priv_19_3_1",
+  "run_index": 2,
+  "model_requested": "openai/gpt-oss-120b",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: Size of a cache block, an implementation-specific power\u2011of\u2011two value that is uniform throughout the system.\n    type: integer\n    constraints:\n      power_of_two: true\n      note: uniform throughout the system\n    excerpt: \"size of a cache block shall be uniform throughout the system.\"\n    trigger: \"implementation-specific\"\n    defined_by: \"CMO\"\n    isa_visible: Software can query the cache block size through the discovery mechanism provided by the execution environment (e.g., CMO\u2011defined CSRs).\n    confidence: high\n  - name: CACHE_CAPACITY\n    long_name: Cache capacity\n    description: Total capacity of a cache, an implementation\u2011specific value.\n    type: integer\n    excerpt: \"The capacity and organization of a cache ... are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: \"CMO\"\n    isa_visible: Software can obtain the cache capacity via the execution\u2011environment discovery facilities (e.g., CMO\u2011defined CSRs).\n    confidence: high\n  - name: CACHE_ORGANIZATION\n    long_name: Cache organization\n    description: Organizational characteristics of a cache (e.g., associativity, number of sets), an implementation\u2011specific choice.\n    type: string\n    excerpt: \"The capacity and organization of a cache ... are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: \"CMO\"\n    isa_visible: Software can read cache organization details through the discovery mechanism supplied by the execution environment (e.g., CMO\u2011defined CSRs).\n    confidence: high\nrejected:\n  - candidate: cache block alignment\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations\"\n    explanation: Alignment is derived from the block size and is not a separate implementation choice observable by software.\n  - candidate: NAPOT encoding\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"naturally aligned power-of-two (or NAPOT) range of memory locations\"\n    explanation: The use of NAPOT is a representation detail, not a configurable parameter.\n  - candidate: uniform block size across system\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"size of a cache block shall be uniform throughout the system\"\n    explanation: The architecture mandates uniformity, so implementations cannot differ; it is a constraint, not a parameter.",
+  "reasoning_chars": 5467,
+  "finish_reason": "stop",
+  "prompt_tokens": 1541,
+  "completion_tokens": 1635,
+  "model_echoed": "gpt-oss-120b",
+  "elapsed_s": 9.6,
+  "status": "ok"
+}

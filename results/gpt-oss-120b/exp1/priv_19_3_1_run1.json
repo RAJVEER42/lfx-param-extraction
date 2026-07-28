@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:04:29.927182+00:00",
+  "prompt_version": "exp1",
+  "snippet": "priv_19_3_1",
+  "run_index": 1,
+  "model_requested": "openai/gpt-oss-120b",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_CAPACITY\n    long_name: Cache capacity\n    description: Capacity of a cache, chosen by the implementation.\n    type: integer\n    constraints: {}\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover the cache capacity through the execution environment's cache discovery mechanism.\n    confidence: high\n  - name: CACHE_ORGANIZATION\n    long_name: Cache organization\n    description: Organization of a cache (e.g., associativity, number of sets), chosen by the implementation.\n    type: string\n    constraints: {}\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover the cache organization through the execution environment's cache discovery mechanism.\n    confidence: high\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: Size of a cache block, chosen by the implementation and uniform throughout the system.\n    type: integer\n    constraints:\n      power_of_two: true\n      note: \"Uniform throughout the system\"\n    excerpt: \"In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.\"\n    trigger: \"shall be uniform throughout the system\"\n    defined_by: \"CMO extensions\"\n    isa_visible: Software can discover the cache block size via the execution environment's cache discovery mechanism.\n    confidence: high\nrejected:\n  - candidate: uniformity of cache block size\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.\"\n    explanation: The requirement that all cache blocks have the same size is a fixed architectural rule, not an implementation choice.\n  - candidate: power\u2011of\u2011two or NAPOT range requirement\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations\"\n    explanation: The block must be a power\u2011of\u2011two (or NAPOT) range, which is a constraint imposed by the architecture, not a selectable parameter.",
+  "reasoning_chars": 4368,
+  "finish_reason": "stop",
+  "prompt_tokens": 1541,
+  "completion_tokens": 1449,
+  "model_echoed": "gpt-oss-120b",
+  "elapsed_s": 9.56,
+  "status": "ok"
+}

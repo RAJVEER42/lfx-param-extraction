@@ -1,0 +1,45 @@
+parameters:
+  - name: CACHE_CAPACITY
+    long_name: Cache capacity
+    description: The capacity of the cache, which is implementation-specific and discoverable by software.
+    type: integer
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the cache capacity through means provided by the execution environment.
+    confidence: high
+  - name: CACHE_ORGANIZATION
+    long_name: Cache organization
+    description: The organization of the cache, which is implementation-specific and discoverable by software.
+    type: string
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the cache organization through means provided by the execution environment.
+    confidence: high
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: The size of a cache block, which is implementation-specific and discoverable by software. The size is a power of two and uniform throughout the system.
+    type: integer
+    constraints:
+      power_of_two: true
+      note: "The size of a cache block shall be uniform throughout the system."
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the cache block size through means provided by the execution environment.
+    confidence: high
+
+rejected:
+  - candidate: the execution environment provides software a means to discover information about the caches and cache blocks
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "the execution environment provides software a means to discover information about the caches and cache blocks in a system."
+    explanation: The architecture requires that a discovery mechanism exists; implementations do not choose whether to provide it.
+  - candidate: the size of a cache block shall be uniform throughout the system
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: "the size of a cache block shall be uniform throughout the system."
+    explanation: This is a restriction on the cache block size parameter, not a separate implementation choice.
+  - candidate: naturally aligned power-of-two (or NAPOT) range
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "naturally aligned power-of-two (or NAPOT) range"
+    explanation: The architecture defines that cache blocks represent NAPOT ranges; implementations cannot choose otherwise.

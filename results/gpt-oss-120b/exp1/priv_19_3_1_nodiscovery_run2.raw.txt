@@ -1,0 +1,14 @@
+parameters: []
+rejected:
+  - candidate: CACHE_CAPACITY
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific."
+    explanation: Software cannot observe cache capacity through defined ISA behavior in this passage.
+  - candidate: CACHE_ORGANIZATION
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific."
+    explanation: The organization of a cache is not exposed to software by any ISA-defined mechanism in the passage.
+  - candidate: CACHE_BLOCK_SIZE
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific."
+    explanation: Although the block size is implementation-specific, the passage provides no ISA-visible way to detect it.

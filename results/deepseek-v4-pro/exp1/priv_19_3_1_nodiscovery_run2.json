@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:02:26.728984+00:00",
+  "prompt_version": "exp1",
+  "snippet": "priv_19_3_1_nodiscovery",
+  "run_index": 2,
+  "model_requested": "deepseek-ai/DeepSeek-V4-Pro",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "c1de20476f2c6ec9"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: The size of a cache block, which is a contiguous, naturally aligned power-of-two range of memory. The size is uniform across all caches in the system.\n    type: integer\n    constraints:\n      power_of_two: true\n      note: shall be uniform throughout the system\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific.\"\n    trigger: \"implementation-specific\"\n    defined_by: CMO extensions\n    isa_visible: The range of addresses affected by a cache block operation (e.g., CBO.ZERO) depends on the block size, making it observable by software.\n    confidence: high\n\nrejected:\n  - candidate: Cache capacity\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific.\"\n    explanation: Cache capacity does not affect the observable behavior of any instruction; it only affects performance.\n  - candidate: Cache organization\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific.\"\n    explanation: Cache organization (e.g., associativity) is not visible through the ISA; CMO instructions operate on cache blocks regardless of organization.",
+  "reasoning_chars": 7615,
+  "finish_reason": "stop",
+  "prompt_tokens": 1476,
+  "completion_tokens": 1950,
+  "model_echoed": "deepseek-ai/DeepSeek-V4-Pro",
+  "elapsed_s": 66.18,
+  "status": "ok"
+}

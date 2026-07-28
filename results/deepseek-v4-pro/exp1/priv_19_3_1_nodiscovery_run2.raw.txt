@@ -1,0 +1,23 @@
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: The size of a cache block, which is a contiguous, naturally aligned power-of-two range of memory. The size is uniform across all caches in the system.
+    type: integer
+    constraints:
+      power_of_two: true
+      note: shall be uniform throughout the system
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific."
+    trigger: "implementation-specific"
+    defined_by: CMO extensions
+    isa_visible: The range of addresses affected by a cache block operation (e.g., CBO.ZERO) depends on the block size, making it observable by software.
+    confidence: high
+
+rejected:
+  - candidate: Cache capacity
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific."
+    explanation: Cache capacity does not affect the observable behavior of any instruction; it only affects performance.
+  - candidate: Cache organization
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific."
+    explanation: Cache organization (e.g., associativity) is not visible through the ISA; CMO instructions operate on cache blocks regardless of organization.

@@ -1,0 +1,44 @@
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: Size of a cache block, an implementation-specific power‑of‑two value that is uniform throughout the system.
+    type: integer
+    constraints:
+      power_of_two: true
+      note: uniform throughout the system
+    excerpt: "size of a cache block shall be uniform throughout the system."
+    trigger: "implementation-specific"
+    defined_by: "CMO"
+    isa_visible: Software can query the cache block size through the discovery mechanism provided by the execution environment (e.g., CMO‑defined CSRs).
+    confidence: high
+  - name: CACHE_CAPACITY
+    long_name: Cache capacity
+    description: Total capacity of a cache, an implementation‑specific value.
+    type: integer
+    excerpt: "The capacity and organization of a cache ... are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: "CMO"
+    isa_visible: Software can obtain the cache capacity via the execution‑environment discovery facilities (e.g., CMO‑defined CSRs).
+    confidence: high
+  - name: CACHE_ORGANIZATION
+    long_name: Cache organization
+    description: Organizational characteristics of a cache (e.g., associativity, number of sets), an implementation‑specific choice.
+    type: string
+    excerpt: "The capacity and organization of a cache ... are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: "CMO"
+    isa_visible: Software can read cache organization details through the discovery mechanism supplied by the execution environment (e.g., CMO‑defined CSRs).
+    confidence: high
+rejected:
+  - candidate: cache block alignment
+    reason: NOT_ISA_VISIBLE
+    excerpt: "each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations"
+    explanation: Alignment is derived from the block size and is not a separate implementation choice observable by software.
+  - candidate: NAPOT encoding
+    reason: NOT_ISA_VISIBLE
+    excerpt: "naturally aligned power-of-two (or NAPOT) range of memory locations"
+    explanation: The use of NAPOT is a representation detail, not a configurable parameter.
+  - candidate: uniform block size across system
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "size of a cache block shall be uniform throughout the system"
+    explanation: The architecture mandates uniformity, so implementations cannot differ; it is a constraint, not a parameter.

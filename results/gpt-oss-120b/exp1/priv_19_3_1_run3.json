@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:04:49.296792+00:00",
+  "prompt_version": "exp1",
+  "snippet": "priv_19_3_1",
+  "run_index": 3,
+  "model_requested": "openai/gpt-oss-120b",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_CAPACITY\n    long_name: Cache capacity\n    description: Total amount of data a cache can hold, chosen by the implementation.\n    type: integer\n    constraints: {}\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can query the execution environment (e.g., via CMO discovery instructions) to obtain the cache capacity.\n    confidence: high\n  - name: CACHE_ORGANIZATION\n    long_name: Cache organization\n    description: Structural organization of a cache (e.g., associativity, number of sets), chosen by the implementation.\n    type: string\n    constraints: {}\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can query the execution environment to discover the cache\u2019s organization.\n    confidence: high\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: Size of a cache block, which must be uniform across the system and a power\u2011of\u2011two (or NAPOT) range.\n    type: integer\n    constraints:\n      power_of_two: true\n    excerpt: \"In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.\"\n    trigger: \"shall be uniform throughout the system\"\n    defined_by: \"CMO extensions\"\n    isa_visible: Software can discover the block size through the cache\u2011discovery mechanisms provided by the execution environment.\n    confidence: high\nrejected:\n  - candidate: cache block alignment\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations\"\n    explanation: Alignment is derived from the block size and is not a separate implementation choice.\n  - candidate: cache block identification method\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"A cache block is identified by any of the physical addresses corresponding to the underlying memory locations.\"\n    explanation: The method of identification is defined by the ISA and not an implementation\u2011chosen parameter.",
+  "reasoning_chars": 3593,
+  "finish_reason": "stop",
+  "prompt_tokens": 1541,
+  "completion_tokens": 1252,
+  "model_echoed": "gpt-oss-120b",
+  "elapsed_s": 7.18,
+  "status": "ok"
+}

@@ -22,6 +22,14 @@ Snippet 19.3.1. Gold set: exactly one parameter, `CACHE_BLOCK_SIZE`.
 **Recall of the gold set: 9/9 in both versions.** `CACHE_BLOCK_SIZE` was never
 missed, and v2's extra machinery did not cause it to be lost.
 
+> ⚠️ **Later finding, added after `analysis/exp1_results.md`.** That 9/9 is
+> true and misleading. Experiment 1 shows all runs justified the correct
+> parameter with the *wrong* reason, citing execution-environment
+> discoverability rather than the cache-management operations that actually
+> make block size ISA-visible. Delete the one clause that supplied that wrong
+> reason and recall falls to 2 of 6. Read this number alongside
+> `exp1_results.md` §4, not on its own.
+
 **Over-extraction: 9/9 runs in v1 → 6/9 in v2.** The entire improvement comes
 from **one model out of three.**
 

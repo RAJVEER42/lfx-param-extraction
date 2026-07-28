@@ -1,0 +1,30 @@
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: The size of a cache block, which is uniform throughout the system and a power of two.
+    type: integer
+    constraints:
+      power_of_two: true
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: Software can discover the cache block size via the discovery mechanism provided by the execution environment.
+    confidence: high
+
+rejected:
+  - candidate: Cache capacity
+    reason: NOT_STATED_IN_TEXT
+    excerpt: "The capacity and organization of a cache ... are both implementation-specific"
+    explanation: Capacity is per-cache; the passage does not define a single system-wide capacity parameter, and the number of caches is not parameterized.
+  - candidate: Cache organization
+    reason: NOT_STATED_IN_TEXT
+    excerpt: "The capacity and organization of a cache ... are both implementation-specific"
+    explanation: Organization is per-cache; the passage does not define a single system-wide organization parameter, and the number of caches is not parameterized.
+  - candidate: Number of caches
+    reason: NOT_STATED_IN_TEXT
+    excerpt: null
+    explanation: The passage mentions caches but does not state that the number of caches is implementation-specific.
+  - candidate: Cache block size uniformity
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: "the size of a cache block shall be uniform throughout the system"
+    explanation: This is a constraint on the cache block size parameter, not a separate parameter.

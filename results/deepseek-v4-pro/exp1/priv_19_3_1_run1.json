@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T05:59:19.572022+00:00",
+  "prompt_version": "exp1",
+  "snippet": "priv_19_3_1",
+  "run_index": 1,
+  "model_requested": "deepseek-ai/DeepSeek-V4-Pro",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: The size of a cache block, which is uniform throughout the system and a power of two.\n    type: integer\n    constraints:\n      power_of_two: true\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Software can discover the cache block size via the discovery mechanism provided by the execution environment.\n    confidence: high\n\nrejected:\n  - candidate: Cache capacity\n    reason: NOT_STATED_IN_TEXT\n    excerpt: \"The capacity and organization of a cache ... are both implementation-specific\"\n    explanation: Capacity is per-cache; the passage does not define a single system-wide capacity parameter, and the number of caches is not parameterized.\n  - candidate: Cache organization\n    reason: NOT_STATED_IN_TEXT\n    excerpt: \"The capacity and organization of a cache ... are both implementation-specific\"\n    explanation: Organization is per-cache; the passage does not define a single system-wide organization parameter, and the number of caches is not parameterized.\n  - candidate: Number of caches\n    reason: NOT_STATED_IN_TEXT\n    excerpt: null\n    explanation: The passage mentions caches but does not state that the number of caches is implementation-specific.\n  - candidate: Cache block size uniformity\n    reason: CONSTRAINT_NOT_PARAMETER\n    excerpt: \"the size of a cache block shall be uniform throughout the system\"\n    explanation: This is a constraint on the cache block size parameter, not a separate parameter.",
+  "reasoning_chars": 20476,
+  "finish_reason": "stop",
+  "prompt_tokens": 1498,
+  "completion_tokens": 4735,
+  "model_echoed": "deepseek-ai/DeepSeek-V4-Pro",
+  "elapsed_s": 44.23,
+  "status": "ok"
+}

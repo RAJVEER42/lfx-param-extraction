@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:04:56.557352+00:00",
+  "prompt_version": "exp1",
+  "snippet": "priv_19_3_1_nodiscovery",
+  "run_index": 1,
+  "model_requested": "openai/gpt-oss-120b",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "c1de20476f2c6ec9"
+  },
+  "name_list_supplied": false,
+  "content": "parameters: []\nrejected:\n  - candidate: cache_capacity\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific.\"\n    explanation: Software cannot observe cache capacity through defined ISA behavior in the passage.\n  - candidate: cache_organization\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific.\"\n    explanation: The organization of a cache is not exposed to software by the ISA as described.\n  - candidate: cache_block_size\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific.\"\n    explanation: Although the block size is implementation-specific, the passage provides no ISA-visible way to detect it.",
+  "reasoning_chars": 2843,
+  "finish_reason": "stop",
+  "prompt_tokens": 1520,
+  "completion_tokens": 746,
+  "model_echoed": "gpt-oss-120b",
+  "elapsed_s": 4.57,
+  "status": "ok"
+}

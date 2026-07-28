@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:01:50.974956+00:00",
+  "prompt_version": "exp1",
+  "snippet": "priv_19_3_1_nodiscovery",
+  "run_index": 1,
+  "model_requested": "deepseek-ai/DeepSeek-V4-Pro",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 8000
+  },
+  "prompt_sha256_16": {
+    "system": "764e51c1e85c425b",
+    "user": "c1de20476f2c6ec9"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: Size of a cache block.\n    type: integer\n    constraints:\n      power_of_two: true\n      note: uniform throughout the system\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific.\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: Cache block size determines the granularity of cache management operations (CMO), so software can infer the block size by performing a CMO and observing the affected address range.\n    confidence: high\n\nrejected:\n  - candidate: Cache capacity\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific.\"\n    explanation: Cache capacity is not observable through the ISA; no instruction reveals the cache size.\n  - candidate: Cache organization\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific.\"\n    explanation: Cache organization (e.g., associativity) is not observable through the ISA; no instruction reveals it.\n  - candidate: Cache block size uniformity\n    reason: CONSTRAINT_NOT_PARAMETER\n    excerpt: \"In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.\"\n    explanation: This is a requirement that the implementation must satisfy, not a parameter that can vary between implementations.",
+  "reasoning_chars": 5926,
+  "finish_reason": "stop",
+  "prompt_tokens": 1476,
+  "completion_tokens": 1595,
+  "model_echoed": "deepseek-ai/DeepSeek-V4-Pro",
+  "elapsed_s": 35.53,
+  "status": "ok"
+}
