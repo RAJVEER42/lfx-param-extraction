@@ -48,7 +48,11 @@ hr "3. Audit every quantitative claim against the raw data (offline)"
 # Re-derives the numbers in README.md, parameters.yaml and analysis/ from
 # results/. A submission asserting numbers nobody recomputed is asking to be
 # trusted; this makes them checkable in one command.
-if [ -n "$UDB" ]; then
+if ! python3 -c "import yaml" 2>/dev/null; then
+  echo "SKIPPED: the claim audit parses YAML and needs PyYAML."
+  echo "  pip install pyyaml   then re-run to check all 42 claims."
+  echo "Stages 1 and 2 above do not need it and have completed."
+elif [ -n "$UDB" ]; then
   python3 scripts/audit_claims.py --udb "$UDB"
 else
   python3 scripts/audit_claims.py

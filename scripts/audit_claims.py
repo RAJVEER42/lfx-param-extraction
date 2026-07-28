@@ -64,7 +64,18 @@ def main() -> int:
     ap.add_argument("--udb")
     args = ap.parse_args()
 
-    import yaml
+    try:
+        import yaml
+    except ImportError:
+        print(
+            "PyYAML is required here: the audit parses parameters.yaml and the UDB\n"
+            "parameter files in order to re-derive the numbers.\n\n"
+            "    pip install pyyaml\n\n"
+            "The trigger scan and the grounding check (run.sh stages 1-2) do not need\n"
+            "it and are unaffected.",
+            file=sys.stderr,
+        )
+        return 2
 
     # --- snippets -----------------------------------------------------------
     bodies = {}
