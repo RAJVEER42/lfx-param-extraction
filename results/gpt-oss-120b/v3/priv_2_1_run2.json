@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:41:55.351377+00:00",
+  "prompt_version": "v3",
+  "snippet": "priv_2_1",
+  "run_index": 2,
+  "model_requested": "openai/gpt-oss-120b",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 12000
+  },
+  "prompt_sha256_16": {
+    "system": "d0a01c9901a67a5a",
+    "user": "279bf401533c8215"
+  },
+  "name_list_supplied": false,
+  "content": "parameters: []\nrejected:\n  - candidate: CSR_ACCESSIBILITY_BITS\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level as shown in Table 1.\"\n    explanation: The upper 4 bits encoding scheme is defined by the ISA convention, not an implementation\u2011chosen value.\n  - candidate: CSR_READ_WRITE_ENCODING\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"The top two bits (csr[11:10]) indicate whether the register is read/write (00,01, or 10) or read-only (11).\"\n    explanation: The meaning of the top two CSR address bits is fixed by the ISA, leaving no implementation choice.\n  - candidate: CSR_PRIVILEGE_ENCODING\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"The next two bits (csr[9:8]) encode the lowest privilege level that can access the CSR.\"\n    explanation: The encoding of privilege level in bits csr[9:8] is prescribed by the ISA, not a configurable parameter.",
+  "reasoning_chars": 6447,
+  "finish_reason": "stop",
+  "prompt_tokens": 1718,
+  "completion_tokens": 1609,
+  "model_echoed": "gpt-oss-120b",
+  "elapsed_s": 9.12,
+  "status": "ok"
+}

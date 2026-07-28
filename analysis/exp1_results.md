@@ -126,6 +126,14 @@ That upgrades what `isa_visible` is for. It does not merely explain a false
 positive after the fact, it **predicts which model will produce one**. A reviewer
 can read the justification and anticipate the error before checking the answer.
 
+> ⚠️ **Qualified by `exp2_results.md` §B.2.** This association was confirmed
+> prospectively on unseen models, 15 of 15 under v2, including a within-model
+> flip. But it holds because the justification is *unprompted*. When v3 required
+> the correct form of justification, one model produced OPERATIONS-class
+> reasoning and kept over-extracting, and the association fell to 6 of 9. A
+> justification field is a good instrument only while you are not optimising
+> against it.
+
 ### A falsifiable prediction, deliberately left unrun
 
 If the mechanism above is right, then `gemini-3.6-flash` should **keep**

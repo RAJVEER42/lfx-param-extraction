@@ -1,0 +1,14 @@
+parameters: []
+rejected:
+  - candidate: Cache capacity
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    explanation: The passage explicitly states discovery is through the execution environment, not ISA-visible behavior; no instruction's defined behavior changes with cache capacity.
+  - candidate: Cache organization
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    explanation: The passage explicitly states discovery is through the execution environment, not ISA-visible behavior; no instruction's defined behavior changes with cache organization.
+  - candidate: Cache block size
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    explanation: The "shall" indicates this is a requirement on implementations, not a parameter; the architecture fixes that cache block size must be uniform, removing implementation freedom to vary it.

@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:29:49.271797+00:00",
+  "prompt_version": "v3",
+  "snippet": "priv_19_3_1",
+  "run_index": 1,
+  "model_requested": "moonshotai/Kimi-K2-Instruct-0905",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 12000
+  },
+  "prompt_sha256_16": {
+    "system": "d0a01c9901a67a5a",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: The size of a cache block, which is uniform throughout the system.\n    type: integer\n    constraints:\n      power_of_two: true\n    excerpt: \"the size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: null\n    isa_visible: CMO extension instructions operate on cache blocks of this size, so software issuing cache management operations must know the block size to use the instructions correctly.\n    confidence: medium\n\nrejected:\n  - candidate: Cache capacity\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    explanation: While capacity is implementation-specific, no instruction's defined behavior changes based on cache capacity; it is purely a performance characteristic.\n  - candidate: Cache organization\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache and the size of a cache block are both implementation-specific\"\n    explanation: Cache organization (e.g., associativity, number of sets) is implementation-specific but does not affect any instruction's defined behavior.\n  - candidate: Uniform cache block size throughout the system\n    reason: CONSTRAINT_NOT_PARAMETER\n    excerpt: \"the size of a cache block shall be uniform throughout the system\"\n    explanation: This is a constraint that applies to the cache block size parameter, not a separate parameter; it restricts the parameter rather than being a choice itself.",
+  "reasoning_chars": 0,
+  "finish_reason": "stop",
+  "prompt_tokens": 1613,
+  "completion_tokens": 318,
+  "model_echoed": "moonshotai/kimi-k2-0905",
+  "elapsed_s": 11.79,
+  "status": "ok"
+}

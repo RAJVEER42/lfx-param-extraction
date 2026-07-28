@@ -1,0 +1,14 @@
+parameters: []
+rejected:
+  - candidate: CSR_ACCESSIBILITY_BITS
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level as shown in Table 1."
+    explanation: The upper 4 bits encoding scheme is defined by the ISA convention, not an implementation‑chosen value.
+  - candidate: CSR_READ_WRITE_ENCODING
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "The top two bits (csr[11:10]) indicate whether the register is read/write (00,01, or 10) or read-only (11)."
+    explanation: The meaning of the top two CSR address bits is fixed by the ISA, leaving no implementation choice.
+  - candidate: CSR_PRIVILEGE_ENCODING
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "The next two bits (csr[9:8]) encode the lowest privilege level that can access the CSR."
+    explanation: The encoding of privilege level in bits csr[9:8] is prescribed by the ISA, not a configurable parameter.

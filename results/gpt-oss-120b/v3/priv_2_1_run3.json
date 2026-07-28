@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:42:04.469567+00:00",
+  "prompt_version": "v3",
+  "snippet": "priv_2_1",
+  "run_index": 3,
+  "model_requested": "openai/gpt-oss-120b",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 12000
+  },
+  "prompt_sha256_16": {
+    "system": "d0a01c9901a67a5a",
+    "user": "279bf401533c8215"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CSR_ACCESS_ENCODING\n    long_name: CSR address upper bits encoding for access control\n    description: Implementation chooses how the upper 4 bits of the CSR address (csr[11:8]) encode read/write accessibility and the minimum privilege level required to access the CSR.\n    type: string\n    constraints: {}\n    excerpt: \"By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level as shown in Table 1.\"\n    trigger: \"by convention\"\n    defined_by: null\n    isa_visible: The defined behaviour of CSR access instructions (e.g., CSRRW, CSRRS, CSRRWI) depends on how these bits are interpreted to enforce read/write permissions and privilege checks, so software must know the encoding.\n    confidence: high\nrejected:\n  - candidate: CSR address space size (12-bit encoding)\n    reason: FIXED_BY_ARCHITECTURE\n    excerpt: \"The standard RISC-V ISA sets aside a 12-bit encoding space (csr[11:0]) for up to 4,096 CSRs.\"\n    explanation: The 12\u2011bit CSR address width is defined by the ISA and cannot differ between implementations.\n  - candidate: Top two bits encoding values (00,01,10 for read/write, 11 for read\u2011only)\n    reason: CONSTRAINT_NOT_PARAMETER\n    excerpt: \"The top two bits (csr[11:10]) indicate whether the register is read/write (00,01, or 10) or read-only (11).\"\n    explanation: This is part of the overall CSR access encoding convention, not a separate implementation\u2011chosen value.\n  - candidate: Next two bits encoding lowest privilege level\n    reason: CONSTRAINT_NOT_PARAMETER\n    excerpt: \"The next two bits (csr[9:8]) encode the lowest privilege level that can access the CSR.\"\n    explanation: This detail is included in the CSR access encoding parameter rather than being an independent parameter.",
+  "reasoning_chars": 9076,
+  "finish_reason": "stop",
+  "prompt_tokens": 1718,
+  "completion_tokens": 2382,
+  "model_echoed": "gpt-oss-120b",
+  "elapsed_s": 14.09,
+  "status": "ok"
+}

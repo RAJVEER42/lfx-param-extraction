@@ -1,0 +1,26 @@
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: The size of a cache block, which is uniform throughout the system.
+    type: integer
+    constraints:
+      power_of_two: true
+    excerpt: "the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: null
+    isa_visible: CMO extension instructions operate on cache blocks of this size, so software issuing cache management operations must know the block size to use the instructions correctly.
+    confidence: medium
+
+rejected:
+  - candidate: Cache capacity
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    explanation: While capacity is implementation-specific, no instruction's defined behavior changes based on cache capacity; it is purely a performance characteristic.
+  - candidate: Cache organization
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    explanation: Cache organization (e.g., associativity, number of sets) is implementation-specific but does not affect any instruction's defined behavior.
+  - candidate: Uniform cache block size throughout the system
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: "the size of a cache block shall be uniform throughout the system"
+    explanation: This is a constraint that applies to the cache block size parameter, not a separate parameter; it restricts the parameter rather than being a choice itself.

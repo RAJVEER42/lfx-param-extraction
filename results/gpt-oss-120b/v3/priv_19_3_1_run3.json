@@ -1,0 +1,26 @@
+{
+  "schema": "extraction_run/1",
+  "timestamp_utc": "2026-07-28T06:41:00.098359+00:00",
+  "prompt_version": "v3",
+  "snippet": "priv_19_3_1",
+  "run_index": 3,
+  "model_requested": "openai/gpt-oss-120b",
+  "provider": "hf",
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 12000
+  },
+  "prompt_sha256_16": {
+    "system": "d0a01c9901a67a5a",
+    "user": "8a274959f962b377"
+  },
+  "name_list_supplied": false,
+  "content": "parameters:\n  - name: CACHE_BLOCK_SIZE\n    long_name: Cache block size\n    description: Size of a cache block, in bytes, as chosen by the implementation; must be a naturally aligned power\u2011of\u2011two.\n    type: integer\n    constraints:\n      power_of_two: true\n    excerpt: \"size of a cache block are both implementation-specific\"\n    trigger: \"implementation-specific\"\n    defined_by: \"CMO extensions\"\n    isa_visible: \"CMO instructions (e.g., cache block clean, invalidate) operate on whole cache blocks, so their defined granularity and address alignment depend on the implemented cache block size.\"\n    confidence: high\nrejected:\n  - candidate: CACHE_CAPACITY\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache ... are both implementation-specific\"\n    explanation: Cache capacity does not affect the defined behavior of any ISA instruction.\n  - candidate: CACHE_ORGANIZATION\n    reason: NOT_ISA_VISIBLE\n    excerpt: \"The capacity and organization of a cache ... are both implementation-specific\"\n    explanation: Cache organization (associativity, number of sets, etc.) is not reflected in ISA\u2011visible semantics.",
+  "reasoning_chars": 5058,
+  "finish_reason": "stop",
+  "prompt_tokens": 1688,
+  "completion_tokens": 1271,
+  "model_echoed": "gpt-oss-120b",
+  "elapsed_s": 7.23,
+  "status": "ok"
+}

@@ -1,0 +1,26 @@
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: The size of a cache block in bytes, which determines the granularity of cache management operations in the CMO extensions.
+    type: integer
+    constraints:
+      power_of_two: true
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    trigger: "implementation-specific"
+    defined_by: "CMO extensions"
+    isa_visible: The CMO extension instructions (e.g., CBO.CLEAN, CBO.FLUSH, CBO.INVAL, CBO.ZERO) operate on a single cache block; software must know the block size to determine the address range affected by each instruction.
+    confidence: high
+
+rejected:
+  - candidate: Cache capacity
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    explanation: Cache capacity affects performance but not the defined behavior of any instruction; the passage states discovery is via the execution environment, not the ISA.
+  - candidate: Cache organization (associativity, number of levels, etc.)
+    reason: NOT_ISA_VISIBLE
+    excerpt: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    explanation: Cache organization is a microarchitectural detail with no ISA-visible behavioral consequences.
+  - candidate: Uniformity of cache block size across the system
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    explanation: The architecture mandates uniformity for the initial CMO extensions; implementations cannot choose otherwise, so it is a constraint not a parameter.

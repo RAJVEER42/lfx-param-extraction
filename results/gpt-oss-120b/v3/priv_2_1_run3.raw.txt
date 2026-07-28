@@ -1,0 +1,24 @@
+parameters:
+  - name: CSR_ACCESS_ENCODING
+    long_name: CSR address upper bits encoding for access control
+    description: Implementation chooses how the upper 4 bits of the CSR address (csr[11:8]) encode read/write accessibility and the minimum privilege level required to access the CSR.
+    type: string
+    constraints: {}
+    excerpt: "By convention, the upper 4 bits of the CSR address (csr[11:8]) are used to encode the read and write accessibility of the CSRs according to privilege level as shown in Table 1."
+    trigger: "by convention"
+    defined_by: null
+    isa_visible: The defined behaviour of CSR access instructions (e.g., CSRRW, CSRRS, CSRRWI) depends on how these bits are interpreted to enforce read/write permissions and privilege checks, so software must know the encoding.
+    confidence: high
+rejected:
+  - candidate: CSR address space size (12-bit encoding)
+    reason: FIXED_BY_ARCHITECTURE
+    excerpt: "The standard RISC-V ISA sets aside a 12-bit encoding space (csr[11:0]) for up to 4,096 CSRs."
+    explanation: The 12‑bit CSR address width is defined by the ISA and cannot differ between implementations.
+  - candidate: Top two bits encoding values (00,01,10 for read/write, 11 for read‑only)
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: "The top two bits (csr[11:10]) indicate whether the register is read/write (00,01, or 10) or read-only (11)."
+    explanation: This is part of the overall CSR access encoding convention, not a separate implementation‑chosen value.
+  - candidate: Next two bits encoding lowest privilege level
+    reason: CONSTRAINT_NOT_PARAMETER
+    excerpt: "The next two bits (csr[9:8]) encode the lowest privilege level that can access the CSR."
+    explanation: This detail is included in the CSR access encoding parameter rather than being an independent parameter.

@@ -1,0 +1,21 @@
+parameters:
+  - name: CACHE_BLOCK_SIZE
+    long_name: Cache block size
+    description: Size of a cache block; implementations may choose any power‑of‑two size, and the chosen size is uniform for the whole system.
+    type: integer
+    constraints:
+      power_of_two: true
+    excerpt: "the size of a cache block are both implementation-specific, and the execution environment provides software a means to discover information about the caches and cache blocks in a system. In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system."
+    trigger: "implementation-specific"
+    defined_by: CMO
+    isa_visible: Behavior of CMO instructions (e.g., cache block clean, invalidate, or flush) is defined in terms of whole cache blocks; the set of addresses affected by a CMO instruction depends on the implemented cache block size.
+    confidence: high
+rejected:
+  - candidate: CACHE_CAPACITY
+    reason: NOT_ISA_VISIBLE
+    excerpt: "the capacity and organization of a cache ... are both implementation-specific"
+    explanation: No ISA instruction’s defined behavior depends on the total cache capacity.
+  - candidate: CACHE_ORGANIZATION
+    reason: NOT_ISA_VISIBLE
+    excerpt: "the capacity and organization of a cache ... are both implementation-specific"
+    explanation: The ISA does not define any instruction whose semantics vary with cache organization.
