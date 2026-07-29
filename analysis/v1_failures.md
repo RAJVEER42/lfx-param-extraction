@@ -317,11 +317,42 @@ Our ground truth says the former. This is the same instability already reported 
 1 of 3 and unstable within one model. Reaching it a second time by a different
 route is corroboration rather than a new finding.
 
-**The answer to his question, stated plainly:** yes, but the effect is small, it is
-confined to the categorical field rather than the scalar `confidence`, and it lands
-on a candidate our own analysis had already flagged as the ambiguous one. A metric
-keyed on name sets is close to invariant here; a metric that reads a category off a
-selected instance is not, and the exposure is roughly one cell in thirteen.
+#### Per-parameter attributes, the other half of the same question
+
+The table above looks at rejection metadata. Doing the same for **per-parameter**
+attributes on the same 13 cells gives a separate and larger count:
+
+| | cells |
+|---|:--:|
+| some per-parameter attribute moves | **4 of 13** |
+
+What moves: `defined_by` on three cells, flipping between `null` and a value copied
+from the passage (`'CMO'`, `'CMO extensions'`); `trigger` on one, flipping between
+`implementation-specific` and `shall be uniform throughout the system`; and
+`confidence` on one, `high` against `medium`.
+
+The `confidence` case is the one that matters for his mechanism, because
+`deduplicate` sorts on `(conf, in_content, -_start_line)`. A `high`/`medium` swing
+on the same name selects a different surviving instance, and whatever class that
+instance carries is what gets scored. So on that pair recall provably cannot move
+and classification can.
+
+Note what we did **not** measure: classification accuracy itself. Our pipeline does
+not compute it the way Part I's `analyze.py` does. What is observed is that **the
+inputs that metric reads from move on 4 of 13 cells where recall cannot** — the
+necessary condition for the channel, not the channel end to end. Confirming that
+needs the harness that computes it.
+
+The residual also concentrates on the *rejected* candidates rather than the real
+parameter. `CACHE_CAPACITY` appears in three of the four cells, which is the same
+candidate that defeats T3. The candidate a model is least sure how to justify is
+also the one whose metadata is least stable. Suggestive, n=4, not pushed further.
+
+**The answer to his question, stated plainly:** yes on both halves, and small on
+both. Rejection codes move on the same candidate in 1 of 13 cells; per-parameter
+attributes move in 4 of 13. A metric keyed on name sets is close to invariant here.
+A metric that reads an attribute off a selected instance is not, and the exposure
+is a few cells in thirteen rather than most of them.
 
 Checked by `scripts/audit_claims.py`.
 

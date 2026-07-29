@@ -54,6 +54,11 @@ echo "--- v2 (expected: 17/18 clean, 1 elided-quote failure; holds without PyYAM
 python3 scripts/validate.py results/*/v2 2>&1 | tail -8 || true
 
 hr "3. Audit every quantitative claim against the raw data (offline)"
+# The metadata-churn figures in analysis/v1_failures.md 6.2 need the full parsed
+# document per run, so they are checked by their own script.
+python3 scripts/check_metadata_churn.py 2>&1 | tail -5 || \
+  echo "  (skipped: needs pyyaml)"
+echo
 # Re-derives the numbers in README.md, parameters.yaml and analysis/ from
 # results/. A submission asserting numbers nobody recomputed is asking to be
 # trusted; this makes them checkable in one command.
