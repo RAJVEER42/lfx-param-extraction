@@ -109,5 +109,7 @@ Deliverables:
   ground_truth.md              committed before any model ran
   analysis/v1_failures.md      v1 failure modes, 3 of 7 predictions refuted
   analysis/v2_delta.md         v1 -> v2 delta, 2 of 9 predictions refuted
+  analysis/exp1_results.md     minimal-edit pair, 4 of 6 predictions refuted
+  analysis/exp2_results.md     mechanism confirmed, the repaired prompt did not work
   README.md                    the submission
 EOF

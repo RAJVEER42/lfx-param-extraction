@@ -11,7 +11,7 @@ Rajveer Bishnoi, [@RAJVEER42](https://github.com/RAJVEER42)
 
 ---
 
-## The five things worth your time
+## The six things worth your time
 
 **1. Snippet 2.1 is a precision test, and the right answer is zero.**
 It contains none of the challenge's trigger words. Counted, not read:
@@ -346,7 +346,9 @@ SIG rather than an assumption.
 * **The gold set is mine.** DeepSeek's independent rejection of the
   `NOT_STATED_IN_TEXT` trap corroborates one judgement; the rest rests on my
   reading. Three falsification conditions were set in advance and none were met.
-* **v3 is specified but unrun**, by choice.
+* **v3 was run** (`analysis/exp2_results.md`) and is **not** recommended: it removed the
+  wrong justification while one model kept the wrong answer, and it introduced a new
+  failure on the negative control. Reported rather than shipped.
 * 227 parameter files at `bd775a94` versus `titoatwork`'s 223 real parameters. The
   4-file difference is unresolved.
 
@@ -358,7 +360,7 @@ SIG rather than an assumption.
 | `ground_truth.md` | Adjudication and 7 predictions, committed before any run |
 | `prompts/v1/`, `prompts/v2/` | Both prompts, each with design notes |
 | `results/` | All 42 run records, raw and unedited, including 6 failures |
-| `analysis/` | v1 failure modes, and the v1 to v2 delta |
+| `analysis/` | v1 failures, v1 to v2 delta, and two preregistered experiments with their results |
 | `scripts/` | Trigger scan, runner, validator, UDB schema check, claim audit |
 | `.claude/skills/param-extract/` | Reusable skill |
 | `HANDOVER.md` | The instrument, packaged for reuse at corpus scale |
