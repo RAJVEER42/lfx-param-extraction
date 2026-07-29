@@ -4,7 +4,8 @@
 # yaml-language-server: $schema=../../../schemas/param_schema.json
 
 # ---------------------------------------------------------------------------
-# UDB-native form of the parameter extracted from Privileged Spec 19.3.1.
+# UDB-native form of the parameter extracted from the Unprivileged ISA
+# Specification, CMO chapter (src/unpriv/cmo.adoc lines 86-92 at manual b2e69ab).
 #
 # The challenge asks for name/description/type/constraints. In riscv-unified-db
 # those are not four top-level fields: `type` and `constraints` live inside

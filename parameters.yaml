@@ -72,7 +72,14 @@ parameters:
 
     source:
       file: snippets/priv_19_3_1.txt
-      spec_section: Privileged ISA Specification 19.3.1
+      spec_section: Unprivileged ISA Specification, CMO chapter, "Memory and Caches"
+      spec_location: src/unpriv/cmo.adoc lines 86-92, at riscv-isa-manual b2e69ab
+      # The challenge document labelled this passage "Privileged Spec 19.3.1".
+      # That label is wrong and was inherited rather than checked: the text is in
+      # the UNprivileged manual, in the CMO chapter. Verified against the revision
+      # riscv-unified-db pins for ext/riscv-isa-manual. The sentence already
+      # carries an upstream [#norm:cache_block_size] tag, which spans this clause,
+      # the capacity/organization clause and the discovery clause together.
       trigger: implementation-specific
       excerpt: >-
         The capacity and organization of a cache and the size of a cache block
@@ -149,7 +156,7 @@ parameters:
 
 rejected:
 
-  # --- Privileged Spec 19.3.1 -------------------------------------------
+  # --- Unprivileged spec, CMO chapter (src/unpriv/cmo.adoc) --------------
 
   - candidate: Capacity of a cache
     snippet: snippets/priv_19_3_1.txt

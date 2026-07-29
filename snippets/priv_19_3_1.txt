@@ -1,4 +1,7 @@
-Source: RISC-V Privileged ISA Specification, section 19.3.1
-Provided verbatim in the LFX coding challenge document.
+Source: RISC-V Unprivileged ISA Specification, CMO chapter, "Memory and Caches"
+Source: verified at src/unpriv/cmo.adoc lines 86-92, riscv-isa-manual b2e69ab
+Provided verbatim in the LFX coding challenge document, which labelled this
+Provided passage "Privileged Spec 19.3.1". That label is incorrect: the text is in
+Provided the UNprivileged manual. The filename is kept for stable references.
 
 Caches organize copies of data into cache blocks, each of which represents a contiguous, naturally aligned power-of-two (or NAPOT) range of memory locations. A cache block is identified by any of the physical addresses corresponding to the underlying memory locations. The capacity and organization of a cache and the size of a cache block are both implementation-specific, and the execution environment provides software a means to discover information about the caches and cache blocks in a system. In the initial set of CMO extensions, the size of a cache block shall be uniform throughout the system.

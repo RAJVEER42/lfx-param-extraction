@@ -5,7 +5,7 @@ LFX Mentorship Fall 2026 coding challenge. RISC-V International,
 
 Rajveer Bishnoi, [@RAJVEER42](https://github.com/RAJVEER42)
 
-**Input:** 2 snippets of the Privileged spec, 185 words.
+**Input:** 2 spec snippets, 185 words.
 **Output:** 1 parameter, 11 rejected candidates.
 **Runs:** 3 models from 2 labs, 36 usable runs, 2 prompt versions.
 
@@ -43,6 +43,16 @@ result.
 `schema_defs.json` has `4095` where `4096` belongs in both power-of-two enums,
 while `z3.rb` implements the same rule correctly. And 163 of 227 parameter files
 still say `long_name: TODO`.
+
+**6. Two preregistered experiments, and my own fix did not work.**
+[`analysis/exp1_results.md`](analysis/exp1_results.md) deletes one clause from the
+passage and shows the failure in 4 is a prompt gap, not a model prior. It also
+shows the correct answer was reached by invalid reasoning in 6 of 6 runs, so the
+9-of-9 recall reported below was carried by a coincidence.
+[`analysis/exp2_results.md`](analysis/exp2_results.md) confirms the mechanism on
+four unseen models, then finds that the repaired prompt removed the wrong
+justification while one model kept the wrong answer. Eight predictions were
+refuted across the two.
 
 ## The three requested deliverables
 
@@ -276,7 +286,21 @@ directions:
 Cache capacity fails on visibility. A WARL field with an architecturally fixed legal
 set fails on choice.
 
-## 6. Two findings in riscv-unified-db
+## 6. The challenge document mislabels one snippet
+
+The brief presents the cache passage as "Privileged Spec 19.3.1". It is not in the
+Privileged manual. The text is in the **Unprivileged** manual's CMO chapter,
+`src/unpriv/cmo.adoc` lines 86-92 at `riscv-isa-manual` `b2e69ab`, the revision
+`riscv-unified-db` pins.
+
+Worth stating because the label was inherited rather than checked, here and
+presumably elsewhere. The sentence also already carries an upstream
+`[#norm:cache_block_size]` tag, and that tag spans three clauses at once: the block
+size, the capacity and organization, and the discovery mechanism. So upstream has
+already marked this passage as normatively interesting without separating the parts,
+which is exactly the separation §2 and the experiments are about.
+
+## 7. Two findings in riscv-unified-db
 
 Detail and evidence in
 [`reference/udb-schema-notes.md`](reference/udb-schema-notes.md), verified at commit
@@ -299,7 +323,7 @@ unmet need is not finding parameters, since the maintainers found 227, but filli
 prose fields at scale. Usage is inconsistent upstream, so this is a question for the
 SIG rather than an assumption.
 
-## 7. How this maps to the Part II proposal
+## 8. How this maps to the Part II proposal
 
 | Item | What is here |
 |---|---|
@@ -307,9 +331,9 @@ SIG rather than an assumption.
 | **2.** Extend the classification scheme | A second axis in `parameters.yaml`. Reason codes say why something is not a parameter; `udb_absence` says why UDB lacks it, as `real_gap`, `udb_derives`, or `out_of_scope`, all checkable against the repo. `IALIGN` is the `udb_derives` case, verified at `globals.isa:797` |
 | **3.** Agents and skills for reproducible runs | [`.claude/skills/param-extract/`](.claude/skills/param-extract/), plus `run.sh` and four scripts. [`HANDOVER.md`](HANDOVER.md) packages the instrument for someone else to run at corpus scale |
 | **4.** Export in UDB YAML format | [`udb/CACHE_BLOCK_SIZE.yaml`](udb/CACHE_BLOCK_SIZE.yaml), schema-validated |
-| **5.** Open a PR for reviewed parameter files | The two §6 findings are PR-ready, held for SIG discussion first |
+| **5.** Open a PR for reviewed parameter files | The two §7 findings are PR-ready, held for SIG discussion first |
 
-## 8. Limitations
+## 9. Limitations
 
 * **2 snippets, 1 gold parameter, 36 usable runs.** Every figure is a count, not a
   rate. Nothing generalises to the full spec, and no Jaccard coefficient is
@@ -326,7 +350,7 @@ SIG rather than an assumption.
 * 227 parameter files at `bd775a94` versus `titoatwork`'s 223 real parameters. The
   4-file difference is unresolved.
 
-## 9. Repository
+## 10. Repository
 
 | Path | Contents |
 |---|---|
