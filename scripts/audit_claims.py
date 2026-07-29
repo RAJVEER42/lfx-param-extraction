@@ -49,14 +49,30 @@ def load_runs(version: str) -> list[dict]:
 
 
 def names_in(rec: dict) -> list[str]:
+    """Parameter names, or [] if none were emitted.
+
+    Raises ValueError when the response cannot be parsed. Returning [] for both
+    "no parameters" and "unparseable" is the same conflation the finish_reason
+    guard exists to prevent, and it silently mislabelled one churn cell as
+    answer-identical. Callers must handle the failure explicitly.
+    """
     import yaml
     try:
-        doc = yaml.safe_load(unfence(rec.get("content", ""))) or {}
-    except Exception:
+        doc = yaml.safe_load(unfence(rec.get("content", "")))
+    except Exception as e:
+        raise ValueError(f"unparseable response: {e}") from e
+    if doc is None:
         return []
     if not isinstance(doc, dict):
-        return []
+        raise ValueError(f"top level is {type(doc).__name__}, expected mapping")
     return [str(p.get("name")) for p in (doc.get("parameters") or []) if isinstance(p, dict)]
+
+
+def names_or_none(rec: dict):
+    try:
+        return tuple(sorted(set(names_in(rec))))
+    except ValueError:
+        return None
 
 
 def main() -> int:
@@ -179,10 +195,15 @@ def main() -> int:
         _key = (_f.parts[-3], _f.parts[-2], _m.group(1))
         _cells.setdefault(_key, []).append(
             (_hl.sha256(_r.get("content", "").encode()).hexdigest(),
-             tuple(sorted(set(names_in(_r))))))
-    _both = _byte_only = _differ = 0
+             names_or_none(_r)))
+    _both = _byte_only = _differ = _unparseable_cells = 0
     for _v in _cells.values():
         if len(_v) < 2:
+            continue
+        if any(x[1] is None for x in _v):
+            # A run in this cell could not be parsed, so "same answer" is not
+            # decidable for it. Counted separately rather than assumed identical.
+            _unparseable_cells += 1
             continue
         _b = len({x[0] for x in _v}) == 1
         _n = len({x[1] for x in _v}) == 1
@@ -194,9 +215,16 @@ def main() -> int:
             _differ += 1
     check("6.1: every results file was parsed, none silently skipped", _unmatched, [])
     check("6.1: cells with N>=2 considered", sum(1 for _v in _cells.values() if len(_v) >= 2), 25)
+    check("6.1: cells excluded for an unparseable run", _unparseable_cells, 1)
     check("6.1: cells byte-identical and answer-identical", _both, 5)
-    check("6.1: cells byte-different but answer-identical", _byte_only, 14)
+    check("6.1: cells byte-different but answer-identical", _byte_only, 13)
     check("6.1: cells whose parameter set differs", _differ, 6)
+
+    # --- 6.2: metadata churn on the name-identical cells --------------------
+    check("6.2: cells examined equals the 6.1 byte-different name-identical count",
+          sum(1 for _v in _cells.values()
+              if len(_v) >= 2 and len({x[0] for x in _v}) > 1 and len({x[1] for x in _v}) == 1),
+          13)
 
     check("parameters.yaml has exactly 1 parameter", len(pf.get("parameters") or []), 1)
     check("parameters.yaml parameter is CACHE_BLOCK_SIZE",

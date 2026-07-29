@@ -238,11 +238,12 @@ above):
 | | cells |
 |---|:--:|
 | byte-identical **and** answer-identical | 5 |
-| byte-different but answer-identical | **14** |
+| byte-different but answer-identical | **13** |
 | parameter set differs | 6 |
+| excluded, a run in the cell was unparseable | 1 |
 
-So of the **20** cells where the bytes move, **14 still produce exactly the same
-extracted parameters**. The prose churns; the answer usually does not.
+So of the **19** decidable cells where the bytes move, **13 still produce exactly
+the same extracted parameters**. The prose churns; the answer usually does not.
 
 ⚠️ **The definition matters, so it is stated rather than assumed.** "Answer" here
 means the *set* of parameter names. Comparing ordered lists instead, so that a name
@@ -250,18 +251,79 @@ emitted twice counts as different, moves one cell from the middle row to the bot
 and gives 5 / 13 / 7. Set comparison is the right definition for this claim, since a
 duplicated name inside one response is a separate defect and not answer
 instability. An earlier draft of this section reported 5 / 13 / 5 on 23 cells,
-which was wrong on two counts: it predated the experiment runs, and the audit that
-was said to verify it silently skipped six files.
+which was wrong on three counts: it predated the experiment runs, the audit said to
+verify it silently skipped six files, and the parameter-name helper returned an
+empty list both for "no parameters" and for "response did not parse". That last one
+mislabelled one cell as answer-identical when one of its runs produced no parseable
+answer at all: the same conflation the `finish_reason` guard exists to prevent,
+found in our own metric. The helper now raises, and that cell is excluded as
+undecidable rather than assumed identical.
 
 Two consequences. First, N=3 is justified but the thing it protects against is
-narrower than "the model is unstable" — it is the **6 of 25** cells where the
-extraction disagrees with itself. Second, **DeepSeek accounts for 3 of those 6**,
+narrower than "the model is unstable" — it is the **6 of 24 decidable** cells where
+the extraction disagrees with itself. Second, **DeepSeek accounts for 3 of those 6**,
 and it is also the model with the 3.2x completion-token spread. Volume churn and
 answer churn co-occur there, which is a different regime from a model whose output
 is merely reworded.
 
 Checked by `scripts/audit_claims.py`, which now also asserts that **no results
 file was skipped** while computing this.
+
+### 6.2 Metadata churn on name-identical cells
+
+`titoatwork` asked on [#2053](https://github.com/riscv/riscv-unified-db/issues/2053)
+whether any residual movement appears on the name-identical cells from §6.1 when
+something other than recall is scored. His mechanism, from Part I's
+`param_extraction/scripts/analyze.py`: recall cannot move on a name-identical pair,
+because `deduplicate` emits in `sorted(by_name.items())` order and the fuzzy pass
+breaks ties with a strict `>`, so the matched set is fixed by the name set. But
+classification accuracy reads `class` off whichever instance survived
+`deduplicate`, which picks by `(conf, in_content, -_start_line)`. Two runs with an
+identical name set can therefore carry a different class.
+
+We have no `classification` field, but we have three model-authored fields that sit
+in the same position. Measured across the **13** byte-different, name-identical
+cells:
+
+| Field | Cells where it moves |
+|---|:--:|
+| `confidence` | 1 of 13 |
+| rejection `reason` codes | 8 of 13 |
+| `isa_visible` class, by the committed classifier | 1 of 13 |
+
+**The 8 needs decomposing, and doing so weakens it.** Splitting the reason-code
+movement by cause:
+
+| Cause | Cells |
+|---|:--:|
+| the **same candidate** receives a **different code** | **1** |
+| the set of **rejected candidates itself differs** | 9 |
+
+So the channel he predicted does exist in our data, but it is rare: **1 of 13**
+cells, not 8. The rest is candidates appearing and disappearing from the reject
+list, which is a different phenomenon and would not touch a classification metric
+keyed on a fixed name set.
+
+The single genuine case is `gemini-2.5-flash`, v2, 19.3.1, on the candidate
+*"uniformity of cache block size"*:
+
+```
+CONSTRAINT_NOT_PARAMETER   in some runs
+FIXED_BY_ARCHITECTURE      in others
+```
+
+Our ground truth says the former. This is the same instability already reported in
+`v2_delta.md` §6, where that model's reason-code accuracy on this candidate was
+1 of 3 and unstable within one model. Reaching it a second time by a different
+route is corroboration rather than a new finding.
+
+**The answer to his question, stated plainly:** yes, but the effect is small, it is
+confined to the categorical field rather than the scalar `confidence`, and it lands
+on a candidate our own analysis had already flagged as the ambiguous one. A metric
+keyed on name sets is close to invariant here; a metric that reads a category off a
+selected instance is not, and the exposure is roughly one cell in thirteen.
+
+Checked by `scripts/audit_claims.py`.
 
 ## 7. Cost
 
