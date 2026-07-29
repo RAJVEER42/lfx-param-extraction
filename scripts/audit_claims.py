@@ -159,6 +159,36 @@ def main() -> int:
 
     # --- deliverable contents ----------------------------------------------
     pf = yaml.safe_load((REPO / "parameters.yaml").read_text(encoding="utf-8"))
+    # --- 6.1: byte churn vs answer churn ------------------------------------
+    import hashlib as _hl
+    _cells: dict = {}
+    for _f in sorted(REPO.glob("results/*/*/*.json")):
+        _r = json.loads(_f.read_text(encoding="utf-8"))
+        if _r.get("status") == "error":
+            continue
+        _m = re.match(r"(priv_\d+_\d+(?:_\d+)?)_run(\d+)\.json", _f.name)
+        if not _m:
+            continue
+        _key = (_f.parts[-3], _f.parts[-2], _m.group(1))
+        _cells.setdefault(_key, []).append(
+            (_hl.sha256(_r.get("content", "").encode()).hexdigest(),
+             tuple(sorted(set(names_in(_r))))))
+    _both = _byte_only = _differ = 0
+    for _v in _cells.values():
+        if len(_v) < 2:
+            continue
+        _b = len({x[0] for x in _v}) == 1
+        _n = len({x[1] for x in _v}) == 1
+        if _b and _n:
+            _both += 1
+        elif _n:
+            _byte_only += 1
+        else:
+            _differ += 1
+    check("6.1: cells byte-identical and answer-identical", _both, 5)
+    check("6.1: cells byte-different but answer-identical", _byte_only, 13)
+    check("6.1: cells whose parameter set differs", _differ, 5)
+
     check("parameters.yaml has exactly 1 parameter", len(pf.get("parameters") or []), 1)
     check("parameters.yaml parameter is CACHE_BLOCK_SIZE",
           pf["parameters"][0]["name"], "CACHE_BLOCK_SIZE")

@@ -228,6 +228,30 @@ This retroactively justifies N=3 on empirical rather than theoretical grounds:
 run-2 output (2 params, merged model) would have been recorded as "its answer"
 with no indication that its other two runs disagreed.
 
+### 6.1 The churn is mostly absorbed before it reaches the answer
+
+Byte-instability is not the same as answer-instability. Comparing the SHA-256 of
+each raw response against the set of parameter names actually extracted, over all
+**23 cells with N>=2** (every model and prompt version, not just the three above):
+
+| | cells |
+|---|:--:|
+| byte-identical **and** parameter-set identical | 5 |
+| byte-different but parameter-set identical | **13** |
+| parameter set differs | 5 |
+
+So of the 18 cells where the bytes move, **13 still produce exactly the same
+extracted parameters**. The prose churns; the answer usually does not.
+
+Two consequences. First, N=3 is justified but the thing it protects against is
+narrower than "the model is unstable" — it is the **5 of 23** cells where the
+extraction itself disagrees with itself. Second, **DeepSeek accounts for 2 of
+those 5**, and it is also the model with the 3.2x completion-token spread. Volume
+churn and answer churn co-occur there, which is a different regime from a model
+whose output is merely reworded.
+
+Verified by `scripts/audit_claims.py`.
+
 ## 7. Cost
 
 | Model | Prompt tok | Completion tok | Cost |
