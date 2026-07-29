@@ -231,26 +231,37 @@ with no indication that its other two runs disagreed.
 ### 6.1 The churn is mostly absorbed before it reaches the answer
 
 Byte-instability is not the same as answer-instability. Comparing the SHA-256 of
-each raw response against the set of parameter names actually extracted, over all
-**23 cells with N>=2** (every model and prompt version, not just the three above):
+each raw response against the **set of parameter names** extracted, over all **25
+cells with N>=2** (every model, prompt version and snippet, not just the three
+above):
 
 | | cells |
 |---|:--:|
-| byte-identical **and** parameter-set identical | 5 |
-| byte-different but parameter-set identical | **13** |
-| parameter set differs | 5 |
+| byte-identical **and** answer-identical | 5 |
+| byte-different but answer-identical | **14** |
+| parameter set differs | 6 |
 
-So of the 18 cells where the bytes move, **13 still produce exactly the same
+So of the **20** cells where the bytes move, **14 still produce exactly the same
 extracted parameters**. The prose churns; the answer usually does not.
 
-Two consequences. First, N=3 is justified but the thing it protects against is
-narrower than "the model is unstable" — it is the **5 of 23** cells where the
-extraction itself disagrees with itself. Second, **DeepSeek accounts for 2 of
-those 5**, and it is also the model with the 3.2x completion-token spread. Volume
-churn and answer churn co-occur there, which is a different regime from a model
-whose output is merely reworded.
+⚠️ **The definition matters, so it is stated rather than assumed.** "Answer" here
+means the *set* of parameter names. Comparing ordered lists instead, so that a name
+emitted twice counts as different, moves one cell from the middle row to the bottom
+and gives 5 / 13 / 7. Set comparison is the right definition for this claim, since a
+duplicated name inside one response is a separate defect and not answer
+instability. An earlier draft of this section reported 5 / 13 / 5 on 23 cells,
+which was wrong on two counts: it predated the experiment runs, and the audit that
+was said to verify it silently skipped six files.
 
-Verified by `scripts/audit_claims.py`.
+Two consequences. First, N=3 is justified but the thing it protects against is
+narrower than "the model is unstable" — it is the **6 of 25** cells where the
+extraction disagrees with itself. Second, **DeepSeek accounts for 3 of those 6**,
+and it is also the model with the 3.2x completion-token spread. Volume churn and
+answer churn co-occur there, which is a different regime from a model whose output
+is merely reworded.
+
+Checked by `scripts/audit_claims.py`, which now also asserts that **no results
+file was skipped** while computing this.
 
 ## 7. Cost
 

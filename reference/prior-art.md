@@ -150,22 +150,37 @@ prompt, so recall measures grounding. There is a **second, separate** problem, a
 fixing the first does not fix it.
 
 `titoatwork` reran the published condition with a **byte-identical prompt**, same
-model, same prompt version, as Arm A of his four-arm study. Reported on #2053:
+model, same prompt version, as part of a four-arm study. Reported on #2053.
 
-| | Published | Arm A rerun |
-|---|---|---|
-| WARL recall | 3/24 | **9/24** |
-| Overall adjusted recall | 32.2% | 33.9% |
+⚠️ **Corrected 2026-07-29.** This section previously quoted a swing of **3/24 to
+9/24**. That comparison crosses a harness boundary: the 3/24 is the published run
+through Part I's `extract.py`, the 9/24 is his through a separate runner, so part of
+that gap could be implementation divergence rather than run-to-run variance. He
+flagged it himself. **Held inside one harness the numbers are smaller**, and those
+are the ones used below. In his words, *"it does not change your conclusion, it
+changes its size, and the smaller number is the one that survives scrutiny."*
 
-The aggregate barely moved. The per-class number tripled. So the instability is
-concentrated in exactly the small-denominator class any WARL claim would rest on.
+The within-harness figures:
 
-**Why this matters more than it first looks.** Part I's published v1 → v2
-improvement was measured the same way: single runs per condition. If a byte-identical
-prompt can move WARL from 3/24 to 9/24, then a v1 → v2 delta measured once per
-condition cannot distinguish a prompt improvement from run-to-run variance. The
-reported improvement may be real, but the measurement as performed cannot establish
-it.
+| Comparison | Numbers |
+|---|---|
+| Same condition, one harness | WARL **9/24 against 7/24** |
+| Arm B, two runs of the same condition | **2/24 to 9/24**, a swing of **7** |
+| Overall adjusted recall, same reruns | 32.2% to 33.9% |
+
+The aggregate barely moves while the per-class number swings by 7. The instability
+is concentrated in exactly the small-denominator class any WARL claim rests on.
+
+**The sharper form of the argument**, which is his and is better than the one we
+originally made. Part I reports WARL going 25% to 50%, which on a denominator of 24
+is **6 items to 12, an improvement of 6**. The observed run-to-run swing on that
+same class is **7**.
+
+> The run-to-run noise on that class is larger than the entire published
+> improvement, so the delta is not separable from it at n=1 per condition.
+
+That is a stronger claim than "the measurement is noisy", and it survives the
+harness objection because both halves of the swing come from one runner.
 
 That is a different failure from name injection. Supplying no catalogue fixes §2 and
 leaves this untouched. Both have to be addressed before any per-class figure from
@@ -180,11 +195,16 @@ The rule worth keeping, in `titoatwork`'s framing: **do not release per-class
 numbers from a single run.** That holds even after the instability is understood,
 because the fix is more runs, not a better explanation.
 
-🔸 Not independently verified: the 3/24 versus 9/24 figures are his measurements of
-his own reruns. Cite as reported by. The general point, that a single run cannot
-support a per-class claim, stands on its own and matches what we observed directly
+🔸 Not independently verified: all of these are his measurements of his own reruns.
+Cite as reported by, and cite the **within-harness** numbers, not the superseded
+3/24 comparison. The general point, that a single run cannot support a per-class
+claim, stands on its own and matches what we observed directly
 (`analysis/v1_failures.md` §6, where one model produced three distinct outputs at
 `temperature=0`).
+
+Worth recording as a process note: he corrected a number that was working in his
+favour, in the direction of a smaller effect, unprompted. We had already cited the
+larger version. Anyone quoting this thread should quote the corrected figures.
 
 ## 5. 🔑 The principle — and why it is the same one we found
 

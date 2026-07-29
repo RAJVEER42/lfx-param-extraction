@@ -162,12 +162,19 @@ def main() -> int:
     # --- 6.1: byte churn vs answer churn ------------------------------------
     import hashlib as _hl
     _cells: dict = {}
+    _unmatched: list = []
     for _f in sorted(REPO.glob("results/*/*/*.json")):
         _r = json.loads(_f.read_text(encoding="utf-8"))
         if _r.get("status") == "error":
             continue
-        _m = re.match(r"(priv_\d+_\d+(?:_\d+)?)_run(\d+)\.json", _f.name)
+        # Match ANY snippet key, not a hand-written pattern. The previous regex
+        # was r"(priv_\d+_\d+(?:_\d+)?)_run(\d+)" which silently skipped the six
+        # priv_19_3_1_nodiscovery files, i.e. all of experiment 1's Arm B, while
+        # the audit still reported every claim verified. Anything unparseable is
+        # now a hard failure rather than a silent skip.
+        _m = re.match(r"^(.+)_run(\d+)\.json$", _f.name)
         if not _m:
+            _unmatched.append(_f.name)
             continue
         _key = (_f.parts[-3], _f.parts[-2], _m.group(1))
         _cells.setdefault(_key, []).append(
@@ -185,9 +192,11 @@ def main() -> int:
             _byte_only += 1
         else:
             _differ += 1
+    check("6.1: every results file was parsed, none silently skipped", _unmatched, [])
+    check("6.1: cells with N>=2 considered", sum(1 for _v in _cells.values() if len(_v) >= 2), 25)
     check("6.1: cells byte-identical and answer-identical", _both, 5)
-    check("6.1: cells byte-different but answer-identical", _byte_only, 13)
-    check("6.1: cells whose parameter set differs", _differ, 5)
+    check("6.1: cells byte-different but answer-identical", _byte_only, 14)
+    check("6.1: cells whose parameter set differs", _differ, 6)
 
     check("parameters.yaml has exactly 1 parameter", len(pf.get("parameters") or []), 1)
     check("parameters.yaml parameter is CACHE_BLOCK_SIZE",
