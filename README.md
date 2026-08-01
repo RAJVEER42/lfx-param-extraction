@@ -290,7 +290,7 @@ set fails on choice.
 
 The brief presents the cache passage as "Privileged Spec 19.3.1". It is not in the
 Privileged manual. The text is in the **Unprivileged** manual's CMO chapter,
-`src/unpriv/cmo.adoc` lines 86-92 at `riscv-isa-manual` `b2e69ab`, the revision
+`src/unpriv/cmo.adoc` lines 86-93 at `riscv-isa-manual` `b2e69ab`, the revision
 `riscv-unified-db` pins.
 
 Worth stating because the label was inherited rather than checked, here and

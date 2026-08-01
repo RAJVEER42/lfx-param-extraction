@@ -10,7 +10,7 @@ The first run records land fifteen minutes later at `cf5b32b`. The validator,
 
 **The challenge document mislabels its own input.** The cache passage is given as
 Privileged Spec 19.3.1. It is in the Unprivileged manual, `src/unpriv/cmo.adoc`
-lines 86 to 92 at `riscv-isa-manual` `b2e69ab`.
+lines 86 to 93 at `riscv-isa-manual` `b2e69ab`.
 
 **All three models failed the same way in 9 of 9 runs**, and section 2 explains why.
 

@@ -9,7 +9,7 @@
 
 > **On the label "19.3.1".** The challenge document presents the cache passage as
 > Privileged Spec 19.3.1. That is wrong: the text is in the Unprivileged manual's
-> CMO chapter, `src/unpriv/cmo.adoc` lines 86-92 at `riscv-isa-manual` `b2e69ab`.
+> CMO chapter, `src/unpriv/cmo.adoc` lines 86-93 at `riscv-isa-manual` `b2e69ab`.
 > The label is kept throughout this file and in the filenames so they match the
 > runs in `results/`. See `README.md` section 6.
 

@@ -1,5 +1,5 @@
 Source: RISC-V Unprivileged ISA Specification, CMO chapter, "Memory and Caches"
-Source: verified at src/unpriv/cmo.adoc lines 86-92, riscv-isa-manual b2e69ab
+Source: verified at src/unpriv/cmo.adoc lines 86-93, riscv-isa-manual b2e69ab
 Provided verbatim in the LFX coding challenge document, which labelled this
 Provided passage "Privileged Spec 19.3.1". That label is incorrect: the text is in
 Provided the UNprivileged manual. The filename is kept for stable references.

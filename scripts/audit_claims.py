@@ -264,6 +264,18 @@ def main() -> int:
         if re.search(r'excerpt:\s*"[^"]*(?:\.\.\.|\u2026)[^"]*"', _r4.get("content", "")):
             _elided_models.add(_f4.parts[-3])
     check("elided-quote: distinct models exhibiting it", len(_elided_models), 3)
+    # The three do NOT elide the same span. gemini-2.5-flash was arguing for
+    # CACHE_BLOCK_SIZE and dropped the capacity clause; DeepSeek and gpt-oss-120b
+    # were arguing for capacity and dropped the block-size clause. An earlier draft
+    # claimed they elided "the same eight words", which was wrong.
+    _spans = set()
+    for _f5 in sorted(REPO.glob("results/*/*/*.json")):
+        _r5 = json.loads(_f5.read_text(encoding="utf-8"))
+        if _r5.get("status") != "ok":
+            continue
+        for _m5 in re.finditer(r'excerpt:\s*"([^"]*(?:\.\.\.|\u2026)[^"]*)"', _r5.get("content", "")):
+            _spans.add(_m5.group(1).strip().lower())
+    check("elided quotes are NOT the same span across models", len(_spans) > 1, True)
     check("models beyond the three headline ones (excluding the failed gemini-2.5-pro)",
           len(_all_models - {"deepseek-v4-pro", "gemini-3-6-flash", "gemini-2-5-flash", "gemini-2-5-pro"}), 5)
 

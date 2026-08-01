@@ -73,7 +73,7 @@ parameters:
     source:
       file: snippets/priv_19_3_1.txt
       spec_section: Unprivileged ISA Specification, CMO chapter, "Memory and Caches"
-      spec_location: src/unpriv/cmo.adoc lines 86-92, at riscv-isa-manual b2e69ab
+      spec_location: src/unpriv/cmo.adoc lines 86-93, at riscv-isa-manual b2e69ab
       # The challenge document labelled this passage "Privileged Spec 19.3.1".
       # That label is wrong and was inherited rather than checked: the text is in
       # the UNprivileged manual, in the CMO chapter. Verified against the revision
