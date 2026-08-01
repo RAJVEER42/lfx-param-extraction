@@ -9,6 +9,15 @@ Repo: <https://github.com/riscv/riscv-unified-db>
 Commit inspected: `bd775a94d8cd7db94a9202397d055e880456245a` (2026-07-27T05:29:16Z,
 *"Port Pages schema and GitHub pages publishing to Python (#1973)"*)
 
+
+> **STATUS, 2026-08-01.** Everything below was verified at `bd775a94`
+> (2026-07-27) and is accurate as of that commit. Both defects described in
+> section 4 have since been **fixed upstream** by `titoatwork`: issue #2137 for
+> the `4095` enum, and #2188 / #2189 constraining `CACHE_BLOCK_SIZE` to a
+> power-of-two enum, merged 2026-07-29. He filed #2137 five hours before this
+> file recorded the same thing. See `README.md` section 7. Kept unedited as the
+> record of what the analysis found at the time.
+
 ---
 
 ## 1. Where parameters live

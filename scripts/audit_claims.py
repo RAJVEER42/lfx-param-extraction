@@ -262,6 +262,22 @@ def main() -> int:
 
     # --- UDB (optional) -----------------------------------------------------
     if args.udb:
+        _root = pathlib.Path(args.udb)
+        if not (_root / "spec/schemas/schema_defs.json").exists():
+            print(f"--udb path is not a riscv-unified-db checkout: {args.udb}", file=sys.stderr)
+            print("  expected spec/schemas/schema_defs.json under it", file=sys.stderr)
+            return 2
+        # The UDB-side figures below were true at bd775a94 (2026-07-27) and some
+        # are not true now: #2137 and #2189 fixed the pow2 enum and constrained
+        # CACHE_BLOCK_SIZE. Skip rather than emit false failures on a newer tree.
+        import subprocess as _sp
+        _head = _sp.run(["git", "-C", str(_root), "rev-parse", "--short", "HEAD"],
+                        capture_output=True, text=True).stdout.strip()
+        if _head and not _head.startswith("bd775a9"):
+            print(f"  note: UDB checkout is at {_head}, not bd775a94.")
+            print("  Skipping the historical UDB assertions; see README section 7.")
+            args.udb = None
+    if args.udb:
         P = pathlib.Path(args.udb) / "spec/std/isa/param"
         files = sorted(P.glob("*.yaml"))
         check("UDB has 227 parameter files", len(files), 227)

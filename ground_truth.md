@@ -7,6 +7,12 @@
 >
 > Phase 1 of the build plan. No API calls were made in producing this file.
 
+> **On the label "19.3.1".** The challenge document presents the cache passage as
+> Privileged Spec 19.3.1. That is wrong: the text is in the Unprivileged manual's
+> CMO chapter, `src/unpriv/cmo.adoc` lines 86-92 at `riscv-isa-manual` `b2e69ab`.
+> The label is kept throughout this file and in the filenames so they match the
+> runs in `results/`. See `README.md` section 6.
+
 **Method.** Mechanical trigger scan (`scripts/scan_triggers.py` logic, output
 reproduced in §1) → enumerate every candidate a reasonable extractor could
 propose → adjudicate each against a stated decision rule → record the expected

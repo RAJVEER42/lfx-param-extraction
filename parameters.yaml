@@ -104,10 +104,12 @@ parameters:
       (verified at commit bd775a94). Our extraction agrees with the
       maintainers' judgement. Two differences are proposed rather than
       asserted: the existing file has the placeholder `long_name: TODO`, and
-      its schema is `minimum: 1, maximum: 2^64-1`, which admits values the
-      specification forbids because the power-of-two requirement is not
-      encoded. See reference/udb-schema-notes.md section 4 -- the idiomatic fix
-      is blocked by a separate defect in schema_defs.json.
+      its schema was `minimum: 1, maximum: 2^64-1`, which admitted values the
+      specification forbids because the power-of-two requirement was not
+      encoded. BOTH have since been fixed upstream, not by us: titoatwork's
+      #2189 constrained the parameter to a power-of-two enum on 2026-07-29, and
+      long_name is now filled in. See README section 7 and
+      reference/udb-schema-notes.md section 4 for what was found and when.
 
 # ===========================================================================
 # REJECTED CANDIDATES

@@ -39,10 +39,10 @@ execution environment sits outside the ISA, and my prompt never said so. I have 
 patched it, because writing v3 while reporting v2 turns a measurement into a fitted
 result.
 
-**5. Two defects in `riscv-unified-db`, found by reading the schema.**
-`schema_defs.json` has `4095` where `4096` belongs in both power-of-two enums,
-while `z3.rb` implements the same rule correctly. And 163 of 227 parameter files
-still say `long_name: TODO`.
+**5. I found two real defects in `riscv-unified-db` and filed neither.**
+Both are now fixed upstream, by someone else, and on one of them I was not even
+first. §7 is the write-up, kept because what happened to those findings is more
+useful than the findings were.
 
 **6. Two preregistered experiments, and my own fix did not work.**
 [`analysis/exp1_results.md`](analysis/exp1_results.md) deletes one clause from the
@@ -300,28 +300,51 @@ size, the capacity and organization, and the discovery mechanism. So upstream ha
 already marked this passage as normatively interesting without separating the parts,
 which is exactly the separation §2 and the experiments are about.
 
-## 7. Two findings in riscv-unified-db
+## 7. Two findings in riscv-unified-db, and what happened to them
 
-Detail and evidence in
-[`reference/udb-schema-notes.md`](reference/udb-schema-notes.md), verified at commit
-`bd775a94`. Neither has been filed as a PR, because both need a maintainer's view
-first.
+Both came from reading the schema the output has to fit, recorded in
+[`reference/udb-schema-notes.md`](reference/udb-schema-notes.md) at commit
+`fee7302`, 2026-07-27. **Both are now fixed upstream, and neither fix is mine.**
+The section is kept because what happened to them is more useful than the findings
+were.
 
-**Two implementations of "power of two" that disagree.** A cache block is a NAPOT
-range, so `CACHE_BLOCK_SIZE` is always a power of two, but upstream's schema is
-`minimum: 1, maximum: 2^64-1`. `schema_defs.json` already defines
-`64bit_unsigned_pow2` and `$ref`-ing it is precedented, but its enum has `4095`
-where `4096` belongs, at lines 866 and 876, in both enums. `z3.rb` implements the
-same rule with `x & (x-1)` and disagrees on exactly those two values. 4096 is the
-most common cache block and page size in the architecture. **So the fix for the
-missing constraint is blocked by the defect**, which is the part worth knowing. It
-survives because the enum has no live data consumer. I am **not** claiming it breaks
-anything today; that needs the value-validation path traced.
+**The finding.** `CACHE_BLOCK_SIZE` was `minimum: 1, maximum: 2^64-1`, which admits
+3, 5 and 100, while the specification says a cache block is a naturally aligned
+power-of-two range. `schema_defs.json` already defined `64bit_unsigned_pow2` for
+exactly this, but its enum contained `4095` where `4096` belongs, in both the 32-
+and 64-bit lists, so adopting it would have rejected the most likely legal value in
+the architecture. The fix was blocked by the defect.
 
-**`long_name: TODO` in 163 of 227 files**, 71.8%, including `CACHE_BLOCK_SIZE`. The
-unmet need is not finding parameters, since the maintainers found 227, but filling
-prose fields at scale. Usage is inconsistent upstream, so this is a question for the
-SIG rather than an assumption.
+**What happened.** `titoatwork` filed the enum typo as
+[#2137](https://github.com/riscv/riscv-unified-db/issues/2137) at 11:32 UTC on 27
+July. I recorded the same thing in this repository at 16:32 UTC the same day, five
+hours later, having never checked whether it was already reported. He then filed
+[#2188](https://github.com/riscv/riscv-unified-db/issues/2188) and merged
+[#2189](https://github.com/riscv/riscv-unified-db/pull/2189) on 29 July, which
+constrains `CACHE_BLOCK_SIZE` to a power-of-two enum. He also found a third blocker
+I had not: `Idl::Type.from_json_schema_scalar_type` resolves only `uint32` and
+`uint64` and raises on anything else, so no parameter can reference those `$defs` at
+all, filed as [#2199](https://github.com/riscv/riscv-unified-db/issues/2199).
+Separately `Hiteshsai007` filed the dead zero-disjunct in `z3.rb` as
+[#2176](https://github.com/riscv/riscv-unified-db/issues/2176), which I had noted
+as a minor aside and not reported either.
+
+**The lesson, which is the part worth keeping.** I found two real defects and filed
+neither. I held them for a SIG discussion that had not happened yet, and treated
+"still broken in `main`" as "nobody is working on it". Those are different things.
+On one of them I was not even first, and one search would have told me. Unfixed code
+and unclaimed work are not the same, and the cost of assuming otherwise is that
+somebody else does the work and is right to.
+
+What survives is narrower and I would rather state it than dress it up: reading the
+target schema before generating output found real problems, and that part of the
+method worked. Acting on them did not.
+
+**Still open, and still mine to check:** `long_name` was a placeholder in 163 of 227
+parameter files at `bd775a94`. At `4eae422` it is 159 of 227, and
+`CACHE_BLOCK_SIZE`'s is now filled in. The underlying observation stands, that the
+repository's unmet need is prose at scale rather than parameter discovery, but the
+number moves and any figure quoted from it needs a commit attached.
 
 ## 8. How this maps to the Part II proposal
 

@@ -58,7 +58,14 @@ description: |
 # $ref-ing into schema_defs.json from a parameter file is precedented
 # (CONFIG_PTR_ADDRESS, IMP_ID_VALUE and ARCH_ID_VALUE all use .../uint64).
 #
-# BLOCKED: that def cannot be adopted as-is. Its enum contains 4095 where 4096
+# FIXED UPSTREAM 2026-07-29, not by us. titoatwork's #2189 constrained the real
+# parameter to a power-of-two enum, and #2137 corrected the 4095 typo. He also
+# found a blocker we had not: Idl::Type.from_json_schema_scalar_type resolves
+# only uint32 and uint64 and raises on anything else, so no parameter can use
+# those $defs at all (#2199, still open). The note below records what was true
+# at bd775a94 when this file was written. See ../README.md section 7.
+#
+# WAS BLOCKED: that def could not be adopted as-is. Its enum contained 4095 where 4096
 # belongs -- 4095 is the only non-power-of-two in the list, and 4096 (2^12) is
 # absent -- while tools/ruby-gems/udb/lib/udb/z3.rb implements the same rule
 # with the x & (x-1) bit trick and disagrees on exactly those two values. So
