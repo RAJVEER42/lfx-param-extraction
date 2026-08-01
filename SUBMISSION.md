@@ -21,19 +21,31 @@ git clone https://github.com/RAJVEER42/lfx-param-extraction && ./run.sh
 No credentials, no spend. It re-derives 57 figures from the raw output in
 `results/` and exits non-zero if any disagree.
 
+Both supplied snippets were processed, three models each, three runs each:
+
+| Snippet | Result |
+|---|---|
+| Privileged Spec 19.3.1, cache blocks | 1 parameter, `CACHE_BLOCK_SIZE`, and 6 rejected candidates |
+| Privileged Spec 2.1, CSR address mapping | 0 parameters and 5 rejected candidates, which is the correct answer |
+
+Snippet 2.1 contains none of the words the brief lists as parameter signals. Its
+five entries record why zero is right, not errors that were caught.
+
 ---
 
 ## 1. LLMs used
 
 | | DeepSeek-V4-Pro | Gemini 3.6 Flash | Gemini 2.5 Flash |
 |---|---|---|---|
-| Model ID | `deepseek-ai/DeepSeek-V4-Pro` | `gemini-3.6-flash` | `gemini-2.5-flash` |
+| Name and version | `deepseek-ai/DeepSeek-V4-Pro` | `gemini-3.6-flash` | `gemini-2.5-flash` |
 | Context length | 1,048,576 | 1,048,576 | 1,048,576 |
 | Figure read from | `config.json` `max_position_embeddings` | AI Studio `input_token_limit` | AI Studio `input_token_limit` |
 | Weights | open, MIT | proprietary | proprietary |
 | `max_tokens` | 8,000 | 16,000 | 16,000 |
 
-Read from each model's own metadata on 2026-07-27, not recalled. DeepSeek reaches
+These identifiers are the version: all three are dated release points rather than
+rolling aliases, and each run record stores the ID the provider echoed back. Read
+from each model's own metadata on 2026-07-27, not recalled. DeepSeek reaches
 its figure by YaRN scaling from a native 65,536, so quality at full extension is
 not guaranteed; our prompts are about 1,500 tokens. Two labs, one open-weights and
 one proprietary, so agreement between them is evidence rather than a shared prior.
@@ -145,13 +157,10 @@ is the deliverable, abridged here:
 ```
 
 No numeric bound is recorded, because the passage states none. The eleven
-rejections split six on the cache passage and five on the CSR passage, each with a
-reason code: `NOT_ISA_VISIBLE` for cache capacity, organization and the discovery
+rejections split six on 19.3.1 and five on 2.1, each with a reason code: `NOT_ISA_VISIBLE` for cache capacity, organization and the discovery
 mechanism, `CONSTRAINT_NOT_PARAMETER` for block-size uniformity and NAPOT,
 `FIXED_BY_ARCHITECTURE` for the CSR encoding facts, and `NOT_STATED_IN_TEXT` for
-which CSRs an implementation implements. The CSR passage contains none of the
-challenge's trigger words, so its five entries record why zero is the right answer
-rather than errors that were caught.
+which CSRs an implementation implements. 
 
 [`udb/CACHE_BLOCK_SIZE.yaml`](https://github.com/RAJVEER42/lfx-param-extraction/blob/main/udb/CACHE_BLOCK_SIZE.yaml)
 gives the same parameter in `riscv-unified-db`'s shape, where `type` and
