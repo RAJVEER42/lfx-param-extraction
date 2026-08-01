@@ -162,8 +162,12 @@ The real sentence is *"The capacity and organization of a cache **and the size o
 cache block** are both implementation-specific"*.
 
 `v2_delta.md` §3 reported one such elision, by `gemini-2.5-flash`. It now
-reproduces in **two more models from two more labs, on the same sentence, with the
-same eight elided words.** So it is not a quirk of one model. It looks like a
+reproduces in two more models from two more labs, on the same sentence, but
+**eliding the opposite half.** `gemini-2.5-flash` was justifying
+`CACHE_BLOCK_SIZE` and dropped "capacity and organization of a cache and the".
+`DeepSeek` and `gpt-oss-120b` were justifying `CACHE_CAPACITY` and dropped "and
+the size of a cache block". Each keeps the half that supports its own claim, so
+the elision is directed rather than careless. It is not a quirk of one model. It looks like a
 systematic behaviour on long enumerated sentences: models shorten the quote to the
 part that supports their claim.
 

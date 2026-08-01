@@ -163,9 +163,11 @@ generalising correctly.
 `gpt-oss-120b`, plus the parse failure above. (An earlier version of this line
 also named `Ling-2.6-1T`; that was wrong. Its 3 v3 runs validate clean.)
 
-Counting across every committed run, the elided quote appears in **3 models from
-3 labs**: `gpt-oss-120b`, `DeepSeek-V4-Pro` and `gemini-2.5-flash`, all eliding the
-same eight words from the same sentence.
+Counting across every committed run, elided quotes appear in **3 models from 3
+labs**: `gpt-oss-120b`, `DeepSeek-V4-Pro` and `gemini-2.5-flash`. They do not elide
+the same words. Each drops the half of the sentence that does not support the
+candidate it is arguing for, which makes the elision directed rather than
+careless.
 
 ---
 

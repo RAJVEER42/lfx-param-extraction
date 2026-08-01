@@ -226,6 +226,21 @@ def main() -> int:
               if len(_v) >= 2 and len({x[0] for x in _v}) > 1 and len({x[1] for x in _v}) == 1),
           13)
 
+    # 16 predictions registered across the two experiments; 8 refuted.
+    _x = (REPO/"analysis/exp1_prereg.md").read_text(encoding="utf-8")
+    _yz = (REPO/"analysis/exp2_prereg.md").read_text(encoding="utf-8")
+    check("predictions registered across both experiments",
+          len(re.findall(r"^\| \*?\*?X\d", _x, re.M)) + len(re.findall(r"^\| \*?\*?[YZ]\d", _yz, re.M)), 16)
+
+    # The finish_reason guard has never fired. The six gemini-2.5-pro failures were
+    # 429s raised inside the provider call and caught by the exception handler.
+    _errs = [json.loads(f.read_text(encoding="utf-8")) for f in REPO.glob("results/*/*/*.json")]
+    check("every error run was an exception, so finish_reason never rejected one",
+          sorted({r.get("finish_reason") for r in _errs if r.get("status") == "error"}), [None])
+    check("error runs: 6 quota 429s and 3 gateway 504s, none truncations",
+          (sum(1 for r in _errs if r.get("status")=="error" and "429" in str(r.get("error",""))),
+           sum(1 for r in _errs if r.get("status")=="error" and "504" in str(r.get("error","")))), (6, 3))
+
     # --- prompt contamination: v2 must not name anything specific to a snippet -
     _LEAK = ["cache", "block size", "napot", "capacity", "organization", "organisation",
              "cmo", "zicbo", "csr[11", "csr[9", "4,096", "4096", "privilege level"]
