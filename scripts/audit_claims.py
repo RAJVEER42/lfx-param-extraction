@@ -226,6 +226,37 @@ def main() -> int:
               if len(_v) >= 2 and len({x[0] for x in _v}) > 1 and len({x[1] for x in _v}) == 1),
           13)
 
+    # --- prompt contamination: v2 must not name anything specific to a snippet -
+    _LEAK = ["cache", "block size", "napot", "capacity", "organization", "organisation",
+             "cmo", "zicbo", "csr[11", "csr[9", "4,096", "4096", "privilege level"]
+    _v2 = ((REPO / "prompts/v2/system.md").read_text(encoding="utf-8")
+           + (REPO / "prompts/v2/user_template.md").read_text(encoding="utf-8")).lower()
+    check("v2 prompt files contain no snippet-specific term",
+          sorted(w for w in _LEAK if w in _v2), [])
+
+    # --- claims that were WRONG in an earlier draft and are now pinned ---------
+    _ELIDED = "The ... size of a cache block are both implementation-specific"
+    _FULL = ("The capacity and organization of a cache and the size of a cache "
+             "block are both implementation-specific")
+    check("elided-quote: words removed", len(_FULL.split()) - len([w for w in _ELIDED.split() if w != "..."]), 8)
+
+    _elided_models, _all_models = set(), set()
+    for _f4 in sorted(REPO.glob("results/*/*/*.json")):
+        _r4 = json.loads(_f4.read_text(encoding="utf-8"))
+        _all_models.add(_f4.parts[-3])
+        if _r4.get("status") != "ok":
+            continue
+        if re.search(r'excerpt:\s*"[^"]*(?:\.\.\.|\u2026)[^"]*"', _r4.get("content", "")):
+            _elided_models.add(_f4.parts[-3])
+    check("elided-quote: distinct models exhibiting it", len(_elided_models), 3)
+    check("models beyond the three headline ones (excluding the failed gemini-2.5-pro)",
+          len(_all_models - {"deepseek-v4-pro", "gemini-3-6-flash", "gemini-2-5-flash", "gemini-2-5-pro"}), 5)
+
+    _fr = {json.loads(f.read_text(encoding="utf-8")).get("finish_reason")
+           for f in REPO.glob("results/*/*/*.json")}
+    check("no run has a non-stop finish_reason, so 'truncation' must not be claimed",
+          sorted(x for x in _fr if x not in (None, "stop")), [])
+
     check("parameters.yaml has exactly 1 parameter", len(pf.get("parameters") or []), 1)
     check("parameters.yaml parameter is CACHE_BLOCK_SIZE",
           pf["parameters"][0]["name"], "CACHE_BLOCK_SIZE")

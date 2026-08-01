@@ -5,7 +5,7 @@ any file in `results/*/exp1/` existed.
 
 12 runs, 2 models, 2 arms, N=3. All 12 completed.
 
-**Four of six predictions refuted. The headline result is not the one the
+**Five of six predictions refuted. The headline result is not the one the
 experiment was designed to find.**
 
 ---

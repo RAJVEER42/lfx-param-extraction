@@ -64,7 +64,7 @@ echo
 # trusted; this makes them checkable in one command.
 if ! python3 -c "import yaml" 2>/dev/null; then
   echo "SKIPPED: the claim audit parses YAML and needs PyYAML."
-  echo "  pip install pyyaml   then re-run to check all 42 claims."
+  echo "  pip install pyyaml   then re-run to check every claim."
   echo "Stages 1 and 2 above do not need it and have completed."
 elif [ -n "$UDB" ]; then
   python3 scripts/audit_claims.py --udb "$UDB"
@@ -109,7 +109,7 @@ Deliverables:
   ground_truth.md              committed before any model ran
   analysis/v1_failures.md      v1 failure modes, 3 of 7 predictions refuted
   analysis/v2_delta.md         v1 -> v2 delta, 2 of 9 predictions refuted
-  analysis/exp1_results.md     minimal-edit pair, 4 of 6 predictions refuted
+  analysis/exp1_results.md     minimal-edit pair, 5 of 6 predictions refuted
   analysis/exp2_results.md     mechanism confirmed, the repaired prompt did not work
   README.md                    the submission
 EOF

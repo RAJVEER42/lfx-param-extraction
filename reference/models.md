@@ -40,6 +40,19 @@ Worth stating precisely rather than quoting "1M" flatly — the effective qualit
 at full extension is not guaranteed. Irrelevant for our snippets (a few hundred
 tokens), relevant if the pipeline is ever pointed at the whole spec.
 
+### 1.1 Where each context length came from
+
+| Model | Figure | Source |
+|---|---|---|
+| DeepSeek-V4-Pro | 1,048,576 | `config.json` `max_position_embeddings`, YaRN `factor: 16` from a native 65,536 |
+| gemini-3.6-flash | 1,048,576 | Google AI Studio model listing, `input_token_limit` |
+| gemini-2.5-flash | 1,048,576 | Google AI Studio model listing, `input_token_limit` |
+
+Gemini is proprietary and publishes no `config.json`, so the figure comes from the
+API's own model listing rather than from weights metadata. Recorded here because an
+earlier draft said "config.json or API metadata" without saying which applied to
+which, and only one of the three has a `config.json`.
+
 ## 2. Candidates evaluated and rejected
 
 All smoke-tested live before choosing.

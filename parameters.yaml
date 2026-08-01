@@ -14,7 +14,7 @@
 #   source.excerpt   verbatim provenance. Every claim is traceable to an exact
 #                    span of the input, and is MECHANICALLY CHECKED as a
 #                    substring by scripts/validate.py. This is not decoration:
-#                    the check caught a model eliding eleven words behind an
+#                    the check caught a model eliding eight words behind an
 #                    ellipsis and presenting the result as a verbatim quote
 #                    (analysis/v2_delta.md section 3).
 #

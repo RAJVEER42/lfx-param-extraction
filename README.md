@@ -27,7 +27,7 @@ prompt, not the model.
 
 **3. A program caught a fabricated quotation I would have accepted.**
 One model wrote `excerpt: "The ... size of a cache block are both
-implementation-specific"`, eliding 11 words behind an ellipsis and presenting it as
+implementation-specific"`, eliding eight words behind an ellipsis and presenting it as
 verbatim. One substring test found it. That is the answer to "how did you deal with
 hallucinations": not by instructing the model, by making claims checkable.
 
@@ -69,7 +69,7 @@ refuted across the two.
 ./run.sh --udb <path>    # also checks the UDB claims
 ```
 
-That re-derives **all 51 numbers in this file** from the raw output in `results/`
+That re-derives **all 54 numbers in this file** from the raw output in `results/`
 and fails if any disagree. It also re-runs the validator over committed output and
 confirms every quotation in `parameters.yaml` is a real substring of its source.
 

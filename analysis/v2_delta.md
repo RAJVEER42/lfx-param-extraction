@@ -65,7 +65,7 @@ The passage says:
 > "The **capacity and organization of a cache and the** size of a cache block are
 > both implementation-specific"
 
-**The model elided eleven words with an ellipsis and presented the result as a
+**The model elided eight words with an ellipsis and presented the result as a
 verbatim quote.** Prediction Q7 said all excerpts would pass. It was wrong, and
 I flagged it in advance as the one worth being wrong about.
 

@@ -160,10 +160,12 @@ generalising correctly.
 ## B.5 Validator totals
 
 12 of 15 runs clean, 5 errors: 4 elided-quote E1 failures on `rejected` entries in
-`Ling-2.6-1T` and `gpt-oss-120b`, plus the parse failure above.
+`gpt-oss-120b`, plus the parse failure above. (An earlier version of this line
+also named `Ling-2.6-1T`; that was wrong. Its 3 v3 runs validate clean.)
 
-The elided quote now appears in **4 models across 4 labs**, all eliding the same
-eight words from the same sentence.
+Counting across every committed run, the elided quote appears in **3 models from
+3 labs**: `gpt-oss-120b`, `DeepSeek-V4-Pro` and `gemini-2.5-flash`, all eliding the
+same eight words from the same sentence.
 
 ---
 
